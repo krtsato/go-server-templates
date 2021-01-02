@@ -1,0 +1,9 @@
+/bin
+!/bin/.keep
+
+# internal/infra/mysql
+/internal/infra/mysql/dump
+!/internal/infra/mysql/dump/.keep
+/internal/infra/mysql/log
+!/internal/infra/mysql/log/.keep
+

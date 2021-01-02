@@ -1,0 +1,12 @@
+build
+configs/mysql.*
+deployments
+docs
+internal/infra/mysql/log
+internal/infra/mysql/dump
+internal/infra/mysql/initdb.d
+scripts/make
+docker-compose.yml
+Makefile
+.markdownlint.yml
+README.md
