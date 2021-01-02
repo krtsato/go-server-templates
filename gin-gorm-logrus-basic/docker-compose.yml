@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: build/package/local/server.dockerfile
+      args:
+        APP_ENV: local
+    image: local-gin-gorm-logrus-basic-server-img
+    container_name: local-gin-gorm-logrus-basic-server-cont
+    ports:
+      - 9999:9999
+    volumes:
+      - .:/var/app/gin-gorm-logrus-basic
+      - ./internal/infra/mysql/dump:/var/dump
+
+  mysql:
+    build:
+      context: .
+      dockerfile: build/package/local/mysql.dockerfile
+    image: local-gin-gorm-logrus-basic-mysql-img
+    container_name: local-gin-gorm-logrus-basic-mysql-cont
+    env_file: ./configs/mysql.env
+    ports:
+      - 9998:3306
+    volumes:
+      - mysql-vol:/var/lib/mysql
+      - ./configs/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./internal/infra/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./internal/infra/mysql/log:/var/log/mysql
+
+volumes:
+  mysql-vol:
