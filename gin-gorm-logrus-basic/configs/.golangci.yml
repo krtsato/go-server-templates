@@ -1,0 +1,22 @@
+run:
+  modules-download-mode: readonly
+  tests: true
+  skip-dirs:
+    - bin
+    - build
+    - configs
+    - deployments
+    - docs
+
+linters:
+  enable:
+    - gofmt
+    - golint
+    - goimports
+
+# デフォルトで OFF のルール，includeで使う ID は下記を参照
+# https://github.com/golangci/golangci-lint/blob/master/pkg/config/config.go#L39-L102
+issues:
+  include:
+    # export する func のコメントを lint 対象にする
+    - EXC0002
