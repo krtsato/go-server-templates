@@ -1,13 +1,13 @@
 FROM alpine:3.12.3
 
-ARG APP_ENV
+ARG APP_ENV=dev
+ARG APP_NAME=app-name
 
-ENV APP_NAME='gin-gorm-logrus-basic' \
+ENV APP_ENV=${APP_ENV} \
+    APP_NAME=${APP_NAME} \
     APP_DIR=/var/app/${APP_NAME} \
     LOG_DIR=/var/log/${APP_NAME} \
-    CNF_DIR=${APP_DIR}/configs \
-    APP_ENV=${APP_ENV} \
-    TZ='Asia/Tokyo'
+    TZ=Asia/Tokyo
 
 COPY ./bin/server ${APP_DIR}/bin/server
 COPY ./configs/application.yml ${CNF_DIR}/application.yml

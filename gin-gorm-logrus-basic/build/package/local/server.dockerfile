@@ -1,18 +1,19 @@
 FROM golang:1.15.6-alpine3.12
 
-ARG APP_ENV
+ARG APP_ENV=local
+ARG APP_NAME=app-name
 
-ENV APP_NAME=gin-gorm-logrus-basic \
+ENV APP_ENV=${APP_ENV} \
+    APP_NAME=${APP_NAME} \
     APP_DIR=/var/app/${APP_NAME} \
     LOG_DIR=/var/log/${APP_NAME} \
-    APP_ENV=${APP_ENV} \
     TZ=Asia/Tokyo
 
 WORKDIR ${APP_DIR}
 
 COPY ./ ./
 
-# コンテナ内で環境変数 TZ を使う場合 tzdata は削除しない
+# tzdata は削除しない
 RUN apk update \
   && apk add --no-cache tzdata curl mysql-client \
   && rm -rf /var/cache/apk/* \
