@@ -66,8 +66,12 @@ local-down-all: ## local: docker-compose ですべてのリソース削除
 	docker-compose down -v --rmi all
 
 .PHONEY: local-logs
-local-logs: ## local: docker-compose でログ出力
+local-logs: ## local: docker-compose でコンテナログ出力
 	docker-compose logs -f
+
+.PHONEY: local-tail
+local-tail: ## local: tail でアプリケーションログ出力
+	docker-compose exec server sh -c 'tail -f /var/log/${APP_NAME}/app.log'
 
 .PHONEY: local-exec-sh
 local-exec: ## local: docker-compose で sh ログイン
@@ -137,22 +141,22 @@ dev-aws-logs-tail: ## dev: デプロイ後のログ確認
 # MySQL client
 # ------------------------------------------------------------ #
 
-.PHONY: local-mysql-show-dbs
-local-mysql-show-dbs: ## local: show databases
-	docker-compose exec server sh -c 'mysql -u root -proot_pwd -h mysql -P 3306 --protocol=tcp -e "show databases;"'
+.PHONY: local-show-dbs
+local-show-dbs: ## local: show databases
+	docker-compose exec server sh -c 'mysql -u root -ppass_root -h mysql -P 3306 --protocol=tcp -e "show databases;"'
 
-.PHONY: local-mysql-show-tbls
-local-mysql-show-tbls: ## local: show tables
-	docker-compose exec server sh -c 'mysql -u root -proot_pwd -h mysql -P 3306 --protocol=tcp -e "show tables from gin_gorm_logrus_basic_db"'
+.PHONY: local-show-tbls
+local-show-tbls: ## local: show tables
+	docker-compose exec server sh -c 'mysql -u root -ppass_root -h mysql -P 3306 --protocol=tcp -e "show tables from gin_gorm_logrus_basic_db"'
 
-.PHONY: local-mysql-show-tz
-local-mysql-show-tz: ## local: show timezone
-	docker-compose exec server sh -c "mysql -u root -proot_pwd -h mysql -P 3306 --protocol=tcp -e \"show variables like '%time_zone%';\""
+.PHONY: local-show-tz
+local-show-tz: ## local: show timezone
+	docker-compose exec server sh -c "mysql -u root -ppass_root -h mysql -P 3306 --protocol=tcp -e \"show variables like '%time_zone%';\""
 
-.PHONY: local-mysql-select-users
-local-mysql-select-users: ## local: show users
-	docker-compose exec server sh -c 'mysql -u root -proot_pwd -h mysql -P 3306 --protocol=tcp -e "select * from mysql.user\G"'
+.PHONY: local-select-users
+local-select-users: ## local: show users
+	docker-compose exec server sh -c 'mysql -u root -ppass_root -h mysql -P 3306 --protocol=tcp -e "select * from mysql.user\G"'
 
-.PHONY: local-mysql-dump
-local-mysql-dump: ## local: dump DB
+.PHONY: local-dump
+local-dump: ## local: dump DB
 	docker-compose exec server sh -c './scripts/mysql/dump.sh gin_gorm_logrus_basic_db'

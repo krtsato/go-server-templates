@@ -10,6 +10,8 @@ services:
         APP_NAME: gin-gorm-logrus-basic
     image: local-gin-gorm-logrus-basic-server-img
     container_name: local-gin-gorm-logrus-basic-server-cont
+    depends_on:
+      - mysql
     ports:
       - 9999:9999
     volumes:

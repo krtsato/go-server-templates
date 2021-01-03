@@ -17,7 +17,7 @@ if [ ! -z ${2-} ]; then
   table=$2
 fi
 
-mysqldump -u root -proot_pwd -h mysql -P 3306 --protocol=tcp \
+mysqldump -u root -ppass_root -h mysql -P 3306 --protocol=tcp \
   --extended-insert \
   --complete-insert \
   --compress \

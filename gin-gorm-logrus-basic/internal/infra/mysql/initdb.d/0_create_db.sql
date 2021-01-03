@@ -6,4 +6,3 @@ create database if not exists gin_gorm_logrus_basic_db
     collate utf8mb4_general_ci;
 
 set foreign_key_checks=0;
-show databases;

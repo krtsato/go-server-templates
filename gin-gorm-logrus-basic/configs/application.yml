@@ -1,0 +1,88 @@
+- env: default
+  DB:
+    DBEnv: dev
+    ginGormLogrusBasicDB:
+      driver: mysql
+      useConnPool: true
+      connMaxLifetimeMin: 1
+      maxIdleConnSize: 5
+      maxOpenConnSize: 5
+      reader:
+        urlQuery: charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo
+      writer:
+        urlQuery: charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo
+  log:
+    level: info
+    format: json
+    fullPath:
+  web:
+    authCheck: true
+
+- env: local
+  DB:
+    DBEnv: local
+    ginGormLogrusBasicDB:
+      reader:
+        host: mysql
+        port: 3306
+        user: user_r
+        pass: pass_r
+      writer:
+        host: mysql
+        port: 3306
+        user: user_w
+        pass: pass_w
+  log:
+    level: debug
+    format: console
+    fullPath: /var/log/local-gin-gorm-logrus-basic/app.log
+  web:
+    authCheck: false
+
+
+- env: dev
+  DB:
+    DBEnv: dev
+    ginGormLogrusBasicDB:
+      reader:
+        host: # Cloud DB URL
+        port: 3306
+        user: user_r
+        pass: pass_r
+      writer:
+        host: # Cloud DB URL
+        port: 3306
+        user: user_w
+        pass: pass_w
+  log:
+    level: debug
+    format: json
+    fullPath:
+  web:
+    authCheck: false
+
+- env: prd
+  DB:
+    DBEnv: prd
+    ginGormLogrusBasicDB:
+      driver: mysql
+      useConnPool: true
+      connMaxLifetimeMin: 1
+      maxIdleConnSize: 5
+      maxOpenConnSize: 5
+      reader:
+        host: # Cloud DB URL
+        port: 3306
+        user: user_r
+        pass: pass_w
+      writer:
+        host: # Cloud DB URL
+        port: 3306
+        user: user_w
+        pass: pass_w
+  log:
+    level: info
+    format: json
+    fullPath:
+  web:
+    authCheck: true
