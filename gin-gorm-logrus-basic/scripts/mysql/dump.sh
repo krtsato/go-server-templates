@@ -12,6 +12,7 @@ if [ -z $1 ]; then
 fi
 suffix="${suffix}$1"
 
+# syntax: http://teaching.idallen.com/dat2330/06w/notes/shell_variables.txt
 if [ ! -z ${2-} ]; then
   suffix="${suffix}_$2"
   table=$2
