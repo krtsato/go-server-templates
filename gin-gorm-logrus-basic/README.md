@@ -13,23 +13,23 @@ Docker Engine v20.10~
 
 参考: [golang-standards/project-layout](https://github.com/golang-standards/project-layout)
 
-```gin-gorm-logrus-basic
+```text
 .
 ├── bin                          # binary outputs
 ├── build/package
-│   ├── local              # local Dockerfiles
-│   └── server.dockerfile  # dev/prd Dockerfile
+│   ├── local                    # local Dockerfiles
+│   └── server.dockerfile        # dev/prd Dockerfile
 ├── cmd/gin-gorm-logrus-basic    # package main
 ├── configs                      # config files
 ├── deployments                  # deployment files
 ├── docs                         # documents
 ├── internal                    
-│   ├── infra/mysql
-│   │   ├── initdb.d # ddl and dml files 
-│   │   ├── dump     # dump outputs
-│   │   └── log      # log outputs
-│   ├── service
-│   └── webapi
+│   ├── infra/mysql              # infra layer
+│   │   ├── initdb.d             # ddl and dml files 
+│   │   ├── dump                 # dump outputs
+│   │   └── log                  # log outputs
+│   ├── service                  # service layer
+│   └── webapi                   # webapi layer
 └── scripts
     ├── make                     # sub Makefiles
     └── mysql                    # mysql operation shells
