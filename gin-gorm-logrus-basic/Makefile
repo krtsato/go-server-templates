@@ -145,6 +145,10 @@ local-mysql-show-dbs: ## local: show databases
 local-mysql-show-tbls: ## local: show tables
 	docker-compose exec server sh -c 'mysql -u root -proot_pwd -h mysql -P 3306 --protocol=tcp -e "show tables from gin_gorm_logrus_basic_db"'
 
+.PHONY: local-mysql-show-tz
+local-mysql-show-tz: ## local: show timezone
+	docker-compose exec server sh -c "mysql -u root -proot_pwd -h mysql -P 3306 --protocol=tcp -e \"show variables like '%time_zone%';\""
+
 .PHONY: local-mysql-select-users
 local-mysql-select-users: ## local: show users
 	docker-compose exec server sh -c 'mysql -u root -proot_pwd -h mysql -P 3306 --protocol=tcp -e "select * from mysql.user\G"'

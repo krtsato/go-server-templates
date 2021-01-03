@@ -10,9 +10,6 @@ datadir=/var/lib/mysql
 # 古い認証方式を使う MySQL 用
 default_authentication_plugin=mysql_native_password
 
-# 初回起動時の警告回避のためホスト名前解決をスキップ
-skip_name_resolve=0
-
 # slow query log 有効化
 slow_query_log=1
 
@@ -31,9 +28,6 @@ general_log_file=/var/log/mysql/general.log
 general_log=0
 
 [mysqld_safe]
-# 基本設定
-timezone=Asia/Tokyo
-
 # PID ファイル
 pid_file=/var/run/mysqld/mysqld.pid
 
