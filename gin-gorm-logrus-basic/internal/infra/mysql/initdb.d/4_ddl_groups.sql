@@ -1,4 +1,4 @@
-use gin_gorm_logrus_basic_db;
+use gglb_db;
 
 -- groups table
 create table if not exists `groups`(

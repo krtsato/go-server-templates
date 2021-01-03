@@ -1,4 +1,4 @@
-use gin_gorm_logrus_basic_db;
+use gglb_db;
 
 -- accounts table
 create table if not exists accounts(

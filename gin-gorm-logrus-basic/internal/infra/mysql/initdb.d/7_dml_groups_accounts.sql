@@ -1,4 +1,4 @@
-use gin_gorm_logrus_basic_db;
+use gglb_db;
 
 delete from groups_accounts;
 insert into groups_accounts (id, group_id, account_id) values (1, 1, 1);

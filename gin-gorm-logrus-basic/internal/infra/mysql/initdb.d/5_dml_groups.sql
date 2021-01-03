@@ -1,4 +1,4 @@
-use gin_gorm_logrus_basic_db;
+use gglb_db;
 
 delete from `groups`;
 insert into `groups` (id, name, note, created_at, updated_at, deleted_at) values (1, '放課後ティータイム', '放課後ティータイムは永遠に放課後です！', '2000-04-02 00:00:00', '2000-09-28 00:00:00', null);

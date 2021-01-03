@@ -1,8 +1,8 @@
-use gin_gorm_logrus_basic_db;
+use gglb_db;
 
 -- Read user
 create user if not exists 'user_r'@'mysql' identified by 'pass_r';
-grant select on gin_gorm_logrus_basic_db.* to 'user_r'@'mysql';
+grant select on gglb_db.* to 'user_r'@'mysql';
 
 -- Read/Write user
 create user if not exists 'user_w'@'mysql' identified by 'pass_w';

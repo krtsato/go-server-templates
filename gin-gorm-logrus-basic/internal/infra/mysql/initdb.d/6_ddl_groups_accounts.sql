@@ -1,4 +1,4 @@
-use gin_gorm_logrus_basic_db;
+use gglb_db;
 
 -- 中間テーブル: groups は accounts を所有する
 create table if not exists groups_accounts(

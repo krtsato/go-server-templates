@@ -1,7 +1,7 @@
-- env: default
-  DB:
-    DBEnv: dev
-    ginGormLogrusBasicDB:
+- appEnv: default
+  db:
+    dbEnv: dev
+    gglbdb:
       driver: mysql
       useConnPool: true
       connMaxLifetimeMin: 1
@@ -18,10 +18,10 @@
   web:
     authCheck: true
 
-- env: local
-  DB:
-    DBEnv: local
-    ginGormLogrusBasicDB:
+- appEnv: local
+  db:
+    dbEnv: local
+    gglbdb:
       reader:
         host: mysql
         port: 3306
@@ -40,10 +40,10 @@
     authCheck: false
 
 
-- env: dev
-  DB:
-    DBEnv: dev
-    ginGormLogrusBasicDB:
+- appEnv: dev
+  db:
+    dbEnv: dev
+    gglbdb:
       reader:
         host: # Cloud DB URL
         port: 3306
@@ -61,10 +61,10 @@
   web:
     authCheck: false
 
-- env: prd
-  DB:
-    DBEnv: prd
-    ginGormLogrusBasicDB:
+- appEnv: prd
+  db:
+    dbEnv: prd
+    gglbdb:
       driver: mysql
       useConnPool: true
       connMaxLifetimeMin: 1

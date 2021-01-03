@@ -147,7 +147,7 @@ local-show-dbs: ## local: show databases
 
 .PHONY: local-show-tbls
 local-show-tbls: ## local: show tables
-	docker-compose exec server sh -c 'mysql -u root -ppass_root -h mysql -P 3306 --protocol=tcp -e "show tables from gin_gorm_logrus_basic_db"'
+	docker-compose exec server sh -c 'mysql -u root -ppass_root -h mysql -P 3306 --protocol=tcp -e "show tables from gglb_db"'
 
 .PHONY: local-show-tz
 local-show-tz: ## local: show timezone
@@ -159,4 +159,4 @@ local-select-users: ## local: show users
 
 .PHONY: local-dump
 local-dump: ## local: dump DB
-	docker-compose exec server sh -c './scripts/mysql/dump.sh gin_gorm_logrus_basic_db'
+	docker-compose exec server sh -c './scripts/mysql/dump.sh gglb_db'

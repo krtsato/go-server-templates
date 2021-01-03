@@ -8,8 +8,8 @@ services:
       args:
         APP_ENV: local
         APP_NAME: gin-gorm-logrus-basic
-    image: local-gin-gorm-logrus-basic-server-img
-    container_name: local-gin-gorm-logrus-basic-server-cont
+    image: local-gglb-server-img
+    container_name: local-gglb-server-cont
     depends_on:
       - mysql
     ports:
@@ -22,8 +22,8 @@ services:
     build:
       context: .
       dockerfile: build/package/local/mysql.dockerfile
-    image: local-gin-gorm-logrus-basic-mysql-img
-    container_name: local-gin-gorm-logrus-basic-mysql-cont
+    image: local-gglb-mysql-img
+    container_name: local-gglb-mysql-cont
     cap_add:
       - SYS_NICE # mbind: Operation not permitted 回避
     ports:

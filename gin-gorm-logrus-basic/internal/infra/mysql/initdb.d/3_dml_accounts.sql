@@ -1,4 +1,4 @@
-use gin_gorm_logrus_basic_db;
+use gglb_db;
 
 delete from accounts;
 insert into accounts (id, name, note, thx_count, created_at, updated_at, deleted_at) values (1, '平沢唯', 'ギータに首ったけ', 5, '2000-11-27 00:00:00', '2010-11-27 00:00:00', null);
