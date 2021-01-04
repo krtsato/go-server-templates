@@ -6,6 +6,7 @@ import "fmt"
 type InternalError struct {
 	Cause error
 	Msg   string
+	Code  int // TODO: ConfigError, InternalError を分類する enum 定義
 }
 
 // Error stringify error
@@ -21,11 +22,16 @@ func (e *InternalError) Error() string {
 
 // Unwrap unwrap error
 func (e *InternalError) Unwrap() error {
-	wErr, ok := e.Cause.(AppError)
-	if !ok {
+	if e == nil {
 		return nil
 	}
-	return wErr.Unwrap()
+	u, ok := e.Cause.(interface {
+		Unwrap() error
+	})
+	if ok {
+		return u.Unwrap()
+	}
+	return e.Cause
 }
 
 // NewInternalError InternalError を err, msg から生成
