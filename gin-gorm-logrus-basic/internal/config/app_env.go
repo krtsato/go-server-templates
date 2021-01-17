@@ -23,7 +23,7 @@ var appEnvValueMap = map[AppEnv]string{
 	Prd:   "prd",
 }
 
-// String stringify AppEnv
+// String AppEnv に応じた文字列を返却
 func (e AppEnv) String() string {
 	return appEnvValueMap[e]
 }
@@ -35,10 +35,10 @@ func ApplyAppEnv(value string) (AppEnv, error) {
 			return k, nil
 		}
 	}
-	return 0, apperr.NewConfigErrorF("unknown AppEnv %s", value)
+	return 0, apperr.NewConfigErrF("unknown AppEnv %s", value)
 }
 
-// GetOSEnv get os env from APP_ENV
+// GetOSEnv 環境変数から APP_ENV を取得
 func GetOSEnv() string {
 	return os.Getenv("APP_ENV")
 }
