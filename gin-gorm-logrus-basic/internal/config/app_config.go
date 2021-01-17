@@ -22,11 +22,34 @@ type AppConfig struct {
 }
 
 // AppConfigs 全環境の設定値群
-type AppConfigs []AppConfig
+type AppConfigs []*AppConfig
+
+// LoadConfig アプリケーションで使用する Config を決定
+func LoadConfig(e AppEnv) (*AppConfig, error) {
+	fmt.Printf("start to load config... %v\n", e)
+
+	ymlConfigs, readErr := ioutil.ReadFile(appConfigPath)
+	if readErr != nil {
+		return &AppConfig{}, readErr
+	}
+
+	appConfigs := new(AppConfigs)
+	if err := yaml.Unmarshal(ymlConfigs, appConfigs); err != nil {
+		return &AppConfig{}, err
+	}
+
+	mergedConfig, mergeErr := appConfigs.merge(e)
+	if mergeErr != nil {
+		return &AppConfig{}, mergeErr
+	}
+
+	fmt.Printf("succeed at %v config setup\n", mergedConfig.AppEnv)
+	return mergedConfig, nil
+}
 
 // targetConfig ゼロ値フィールドにのみ defaultConfig をマージ
-func (configs AppConfigs) merge(e AppEnv) (AppConfig, error) {
-	var defaultConfig, targetConfig, emptyConfig AppConfig
+func (configs AppConfigs) merge(e AppEnv) (*AppConfig, error) {
+	var defaultConfig, targetConfig, emptyConfig *AppConfig
 
 	for _, config := range configs {
 		if config.AppEnv == e.String() {
@@ -35,33 +58,10 @@ func (configs AppConfigs) merge(e AppEnv) (AppConfig, error) {
 			defaultConfig = config
 		}
 	}
-	if emptyConfig == targetConfig {
-		return AppConfig{}, apperr.NewConfigErrorF("unknown profile %s", e.String())
+	if targetConfig == emptyConfig {
+		return &AppConfig{}, apperr.NewConfigErrF("unknown profile %s", e.String())
 	}
 
-	err := mergo.Merge(&targetConfig, defaultConfig)
+	err := mergo.Merge(targetConfig, defaultConfig)
 	return targetConfig, err
-}
-
-// LoadConfig アプリケーションで使用する Config を決定
-func LoadConfig(ae AppEnv) (AppConfig, error) {
-	fmt.Printf("start to load config... %v\n", ae)
-
-	ymlConfigs, readErr := ioutil.ReadFile(appConfigPath)
-	if readErr != nil {
-		return AppConfig{}, readErr
-	}
-
-	appConfigs := new(AppConfigs)
-	if unmErr := yaml.Unmarshal(ymlConfigs, &appConfigs); unmErr != nil {
-		return AppConfig{}, unmErr
-	}
-
-	mergedConfig, mergeErr := appConfigs.merge(ae)
-	if mergeErr != nil {
-		return AppConfig{}, mergeErr
-	}
-
-	fmt.Printf("Succeed at %v config setup\n", mergedConfig.AppEnv)
-	return mergedConfig, nil
 }
