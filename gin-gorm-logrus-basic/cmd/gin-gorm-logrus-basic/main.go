@@ -9,15 +9,16 @@ func main() {
 	if loadErr != nil {
 		panic(loadErr)
 	}
+	/*
+		ginApp, initErr := InitializeGinApp(cfg.Web, cfg.DB.HlxEnv)
+		if initErr != nil {
+			panic(initErr)
+		}
+		defer ginApp.Shutdown()
 
-	ginApp, initErr := InitializeGinApp(cfg.Web, cfg.DB.HlxEnv)
-	if initErr != nil {
-		panic(initErr)
-	}
-	defer ginApp.Shutdown()
-
-	startErr := ginApp.Start()
-	if startErr != nil {
-		panic(startErr)
-	}
+		startErr := ginApp.Start()
+		if startErr != nil {
+			panic(startErr)
+		}
+	*/
 }

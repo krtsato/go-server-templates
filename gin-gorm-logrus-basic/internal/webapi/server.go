@@ -1,14 +1,9 @@
 package webapi
 
 import (
-	"fmt"
-
-	// "github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/access"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/config"
-	// "github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/app"
-	// "github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger"
-	// "github.com/ad-agency/helix-api/internal/webapi/controller"
-	"github.com/gin-gonic/gin"
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/access"
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/app"
 )
 
 // Server Web API
@@ -28,14 +23,13 @@ func LoadConfig() (*config.AppConfig, error) {
 	if loadErr != nil {
 		return &config.AppConfig{}, loadErr
 	}
-	/*
-		if applyErr := app.ApplyLogger(cfg.Log); applyErr != nil {
-			return config.AppConfig{}, applyErr
-		}
 
-		access.ApplyLogger(cfg.Log)
-		return cfg, nil
-	*/
+	access.ApplyLogger(cfg.Log)
+	if err := app.ApplyLogger(cfg.Log); err != nil {
+		return &config.AppConfig{}, err
+	}
+
+	return cfg, nil
 }
 
 /*

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/imdario/mergo"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 )
@@ -17,7 +18,7 @@ const (
 type AppConfig struct {
 	AppEnv string `yaml:"appEnv"`
 	// DB  GglbDB      `yaml:"db"`
-	// Log log.Config `yaml:"log"`
+	Log logger.Config `yaml:"log"`
 	// Web Web        `yaml:"web"`
 }
 
@@ -50,7 +51,6 @@ func LoadConfig(e AppEnv) (*AppConfig, error) {
 // targetConfig ゼロ値フィールドにのみ defaultConfig をマージ
 func (configs AppConfigs) merge(e AppEnv) (*AppConfig, error) {
 	var defaultConfig, targetConfig, emptyConfig *AppConfig
-
 	for _, config := range configs {
 		if config.AppEnv == e.String() {
 			targetConfig = config
@@ -58,10 +58,12 @@ func (configs AppConfigs) merge(e AppEnv) (*AppConfig, error) {
 			defaultConfig = config
 		}
 	}
+
 	if targetConfig == emptyConfig {
 		return &AppConfig{}, apperr.NewConfigErrF("unknown profile %s", e.String())
 	}
-
-	err := mergo.Merge(targetConfig, defaultConfig)
-	return targetConfig, err
+	if err := mergo.Merge(targetConfig, defaultConfig); err != nil {
+		return &AppConfig{}, apperr.NewConfigErr(err, "failed to Merge by mergo")
+	}
+	return targetConfig, nil
 }
