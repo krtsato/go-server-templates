@@ -18,9 +18,8 @@ const (
 )
 
 var errCodeValueMap = map[ErrCode]string{
-	UnknownErrCode:  "UnknownErrCode",
-	ConfigErrCode:   "ConfigErrCode",
-	InternalErrCode: "InternalErrCode",
+	ConfigErrCode:   "configErrCode",
+	InternalErrCode: "internalErrCode",
 }
 
 // String ErrCode 文字列を返却
