@@ -1,9 +1,11 @@
 package webapi
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/config"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/access"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/app"
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/webapi/controller"
 )
 
 // Server Web API
@@ -32,22 +34,22 @@ func LoadConfig() (*config.AppConfig, error) {
 	return cfg, nil
 }
 
-/*
-func newGinEngine(webCfg config.Web, handlers ...handler.GinRouterGroup) *gin.Engine {
+func newGinEngine(controllers ...controller.GinRouterGroup) *gin.Engine {
 	engine := gin.Default()
-	filters := []filter.GinFilter{
-		filter.NewBergRoleFilterRead(webCfg),
-		filter.NewAccessLogFilter(),
-		filter.NewErrorFilter(),
-	}
-	for _, f := range filters {
-		engine.Use(f.Execute)
-	}
+	/*
+	 	filters := []filter.GinFilter{
+			filter.NewBergRoleFilterRead(webCfg),
+			filter.NewAccessLogFilter(),
+			filter.NewErrorFilter(),
+		}
+		for _, f := range filters {
+			engine.Use(f.Execute)
+		}
+	*/
 
-	// 各 handler を GinRouterGroup としてエンドポイント化
-	for _, h := range handlers {
-		h.ApplyEndpoints(engine.Group(""))
+	// 各 controller を GinRouterGroup としてエンドポイント化
+	for _, c := range controllers {
+		c.ApplyEndpoints(engine.Group(""))
 	}
 	return engine
 }
-*/
