@@ -69,7 +69,10 @@ go-imports は gofmt の 上位互換
 
 ### Health Check
 
-coming later...
+```shell
+% make local-up-all
+% curl "http://localhost:9999/system/health-check"
+```
 
 ## deployment
 
