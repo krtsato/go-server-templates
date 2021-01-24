@@ -20,6 +20,6 @@ RUN apk update \
   && mkdir -p ${LOG_DIR}
 
 WORKDIR ${APP_DIR}
-EXPOSE 3000
+EXPOSE 9999
 
 CMD ["sh", "-c", "${APP_DIR}/bin/server"]
