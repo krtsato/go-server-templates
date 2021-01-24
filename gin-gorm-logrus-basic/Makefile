@@ -4,7 +4,7 @@
 
 # App
 APP_ENV=local
-APP_NAME=${APP_ENV}-gin-gorm-logrus-basic
+APP_NAME=${APP_ENV}-gglb
 
 # AWS
 REGION=ap-northeast-1
@@ -51,37 +51,37 @@ fmt: ## local: デフォルトのフォーマット
 
 .PHONY: go-build
 go-build: ## dev/prd: デプロイ前にソースコードをビルド
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ./bin/server ./cmd/helix-api/{main.go,wire_gen.go}
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ./bin/gglb-gin-api ./cmd/gglb-gin-api/{main.go,wire_gen.go}
 
 # ------------------------------------------------------------ #
 # Docker for local
 # ------------------------------------------------------------ #
 
-.PHONEY: local-up-all
+.PHONY: local-up-all
 local-up-all: ## local: docker-compose でイメージ作成・コンテナ起動
 	docker-compose up --build -d
 
-.PHONEY: local-down-all
+.PHONY: local-down-all
 local-down-all: ## local: docker-compose ですべてのリソース削除
 	docker-compose down -v --rmi all
 
-.PHONEY: local-logs
+.PHONY: local-logs
 local-logs: ## local: docker-compose でコンテナログ出力
 	docker-compose logs -f
 
-.PHONEY: local-tail
+.PHONY: local-tail
 local-tail: ## local: tail でアプリケーションログ出力
 	docker-compose exec server sh -c 'tail -f /var/log/${APP_NAME}/app.log'
 
-.PHONEY: local-exec-sh
+.PHONY: local-exec-sh
 local-exec: ## local: docker-compose で sh ログイン
 	docker-compose exec server sh
 
-.PHONEY: local-cont-ls
+.PHONY: local-cont-ls
 local-cont-ls: ## local: docker container 一覧
 	docker container ls -a
 
-.PHONEY: local-img-ls
+.PHONY: local-img-ls
 local-img-ls: ## local: docker image 一覧
 	docker image ls -a
 

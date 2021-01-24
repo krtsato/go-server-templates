@@ -8,13 +8,13 @@ tmp_dir = "bin/tmp"
 [build]
 # Just plain old shell command. You could use `make` as well.
 # TODO: add wire_gen.go
-cmd = "go build -o ./bin/server ./cmd/gin-gorm-logrus-basic/main.go"
+cmd = "go build -o ./bin/gglb-gin-api ./cmd/gglb-gin-api/{main.go,wire_gen.go}"
 
 # Binary file yields from `cmd`.
-bin = "bin/server"
+bin = "bin/gglb-gin-api
 
 # Customize binary.
-full_bin = "APP_USER=air ./bin/server"
+full_bin = "APP_USER=air ./bin/gglb-gin-api"
 
 # Watch these filename extensions.
 include_ext = ["go", "yml", "yaml"]

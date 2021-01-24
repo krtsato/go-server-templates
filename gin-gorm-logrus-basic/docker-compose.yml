@@ -7,7 +7,7 @@ services:
       dockerfile: build/package/local/server.dockerfile
       args:
         APP_ENV: local
-        APP_NAME: gin-gorm-logrus-basic
+        APP_NAME: gglb
     image: local-gglb-server-img
     container_name: local-gglb-server-cont
     depends_on:
@@ -15,7 +15,7 @@ services:
     ports:
       - 9999:9999
     volumes:
-      - .:/var/app/gin-gorm-logrus-basic
+      - .:/var/app/gglb
       - ./internal/infra/mysql/dump:/var/dump
 
   mysql:
