@@ -1,0 +1,31 @@
+name: fmt-lint-push
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - feature/*
+      - fix/*
+      - refactor/*
+
+jobs:
+  lint:
+    name: Format and Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.15
+      - name: Go cache
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
+      - name: Format
+        run: make fmt-import
+      - name: Lint
+        run: make lint
