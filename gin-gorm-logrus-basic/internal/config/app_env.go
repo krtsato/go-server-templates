@@ -1,9 +1,10 @@
 package config
 
 import (
-	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 	"os"
 	"strings"
+
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 )
 
 // AppEnv Enum

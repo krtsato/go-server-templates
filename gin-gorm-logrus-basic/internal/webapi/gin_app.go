@@ -2,6 +2,7 @@ package webapi
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/webapi/controller"
 )

@@ -37,14 +37,14 @@ func LoadConfig() (*config.AppConfig, error) {
 func newGinEngine(controllers ...controller.GinRouterGroup) *gin.Engine {
 	engine := gin.Default()
 	/*
-	 	filters := []filter.GinFilter{
-			filter.NewBergRoleFilterRead(webCfg),
-			filter.NewAccessLogFilter(),
-			filter.NewErrorFilter(),
-		}
-		for _, f := range filters {
-			engine.Use(f.Execute)
-		}
+		 	filters := []filter.GinFilter{
+				filter.NewBergRoleFilterRead(webCfg),
+				filter.NewAccessLogFilter(),
+				filter.NewErrorFilter(),
+			}
+			for _, f := range filters {
+				engine.Use(f.Execute)
+			}
 	*/
 
 	// 各 controller を GinRouterGroup としてエンドポイント化

@@ -2,11 +2,12 @@ package access
 
 import (
 	"fmt"
-	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger"
+	"github.com/sirupsen/logrus"
 )
 
 // Logger access logger

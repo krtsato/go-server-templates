@@ -2,11 +2,12 @@ package app
 
 import (
 	"fmt"
+	"io"
+	"os"
+
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger"
 	"github.com/sirupsen/logrus"
-	"io"
-	"os"
 )
 
 // Logger app logger

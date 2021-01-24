@@ -43,7 +43,7 @@ lint: ## local: golangci-lint による静的解析
 
 .PHONY: fmt-import
 fmt-import: ## local: goimports のフォーマット
-	docker-compose exec server goimports -v -w ./
+	docker-compose exec server goimports -w ./
 
 .PHONY: fmt
 fmt: ## local: デフォルトのフォーマット

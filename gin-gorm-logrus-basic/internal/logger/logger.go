@@ -1,8 +1,9 @@
 package logger
 
 import (
-	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 	"strings"
+
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 
 	"github.com/sirupsen/logrus"
 )

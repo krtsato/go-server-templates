@@ -2,11 +2,12 @@ package config
 
 import (
 	"fmt"
+	"io/ioutil"
+
 	"github.com/imdario/mergo"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 )
 
 const (
