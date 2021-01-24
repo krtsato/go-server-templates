@@ -12,7 +12,7 @@ grant
     create routine, alter routine, execute, create temporary tables
     on *.* to 'user_w'@'mysql';
 
--- Management user
+-- Master user
 create user if not exists 'user_m'@'mysql' identified by 'pass_m';
 grant
     create tablespace, create user, alter, drop, usage, create role, drop role,
