@@ -1,10 +1,12 @@
+.idea
 build
-configs/mysql.*
+configs/mysql.cnf
 deployments
 docs
 internal/infra/mysql/log
 internal/infra/mysql/dump
 internal/infra/mysql/initdb.d
+internal/logger/app/log
 scripts/make
 docker-compose.yml
 Makefile

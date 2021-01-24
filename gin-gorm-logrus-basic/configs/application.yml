@@ -36,7 +36,7 @@
   log:
     level: debug
     format: console
-    fullPath: /var/log/local-gglb/app.log
+    fullPath: /var/log/gglb/app.log
   web:
     port: 9999
     authCheck: false

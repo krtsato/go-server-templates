@@ -17,6 +17,7 @@ services:
     volumes:
       - .:/var/app/gglb
       - ./internal/infra/mysql/dump:/var/dump
+      - ./internal/logger/app/log:/var/log/gglb
 
   mysql:
     build:

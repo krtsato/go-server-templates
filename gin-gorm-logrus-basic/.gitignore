@@ -1,3 +1,4 @@
+# bin
 /bin
 !/bin/.keep
 
@@ -7,3 +8,6 @@
 /internal/infra/mysql/log
 !/internal/infra/mysql/log/.keep
 
+# internal/logger/app
+/internal/logger/app/log
+!/internal/logger/app/log/.keep
