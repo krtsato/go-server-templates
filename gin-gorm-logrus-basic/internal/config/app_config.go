@@ -19,7 +19,7 @@ type AppConfig struct {
 	AppEnv string `yaml:"appEnv"`
 	// DB  GglbDB      `yaml:"db"`
 	Log logger.Config `yaml:"log"`
-	// Web Web        `yaml:"web"`
+	Web Web           `yaml:"web"`
 }
 
 // AppConfigs 全環境の設定値群

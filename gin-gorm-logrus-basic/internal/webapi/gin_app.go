@@ -12,9 +12,9 @@ type GinApp struct {
 }
 
 // Start Server を起動
-func (a *GinApp) Start() error {
+func (a *GinApp) Start(port string) error {
 	fmt.Println("Start GinApp")
-	return a.Engine.Run(":9999") // TODO: cfg.Web.Port を参照させる
+	return a.Engine.Run(":" + port)
 }
 
 // Shutdown Server を終了
