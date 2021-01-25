@@ -167,7 +167,7 @@ local-dump: ## local: dump DB
 
 .PHONY: ci-lint
 ci-lint: ## ci: golangci-lint による静的解析
-	which golangci-lint || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+	which golangci-lint || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin
 	golangci-lint cache clean
 	golangci-lint run -c ./configs/.golangci.yml
 
