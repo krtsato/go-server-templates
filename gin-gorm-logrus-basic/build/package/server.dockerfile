@@ -1,4 +1,4 @@
-FROM alpine:3.12.3
+FROM golang:1.15.7-alpine3.13
 
 ARG APP_ENV=dev
 ARG APP_NAME=app-name
@@ -9,7 +9,7 @@ ENV APP_ENV=${APP_ENV} \
     LOG_DIR=/var/log/${APP_NAME} \
     TZ=Asia/Tokyo
 
-COPY ./bin/server ${APP_DIR}/bin/server
+COPY ./bin/server ${APP_DIR}/bin/gglb-gin-api
 COPY ./configs/application.yml ${CNF_DIR}/application.yml
 
 # コンテナ内で環境変数 TZ を使う場合 tzdata は削除しない
@@ -22,4 +22,4 @@ RUN apk update \
 WORKDIR ${APP_DIR}
 EXPOSE 9999
 
-CMD ["sh", "-c", "${APP_DIR}/bin/server"]
+CMD ["sh", "-c", "${APP_DIR}/bin/gglb-gin-api"]

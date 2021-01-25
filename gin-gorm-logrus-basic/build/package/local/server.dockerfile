@@ -1,13 +1,16 @@
-FROM golang:1.15.6-alpine3.12
+FROM golang:1.15.7-alpine3.13
 
 ARG APP_ENV=local
 ARG APP_NAME=app-name
 
-ENV APP_ENV=${APP_ENV} \
+ENV TZ=Asia/Tokyo \
+    GOOS=linux \
+    GOARCH=amd64 \
+    CGO_ENABLED=0 \
+    APP_ENV=${APP_ENV} \
     APP_NAME=${APP_NAME} \
     APP_DIR=/var/app/${APP_NAME} \
-    LOG_DIR=/var/log/${APP_NAME} \
-    TZ=Asia/Tokyo
+    LOG_DIR=/var/log/${APP_NAME}
 
 WORKDIR ${APP_DIR}
 
