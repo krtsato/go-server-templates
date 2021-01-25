@@ -15,7 +15,7 @@ defaults:
     working-directory: gin-gorm-logrus-basic
 
 jobs:
-  lint:
+  fmt-lint:
     name: Format and Lint
     runs-on: ubuntu-latest
     steps:
