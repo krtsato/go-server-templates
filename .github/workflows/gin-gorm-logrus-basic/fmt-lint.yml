@@ -1,6 +1,8 @@
 name: fmt-lint-push
 on:
   push:
+    paths:
+      - ./gin-gorm-logrus-basic/**
     branches:
       - main
       - develop
