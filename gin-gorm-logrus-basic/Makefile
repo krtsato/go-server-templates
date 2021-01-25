@@ -160,3 +160,18 @@ local-select-users: ## local: show users
 .PHONY: local-dump
 local-dump: ## local: dump DB
 	docker-compose exec server sh -c './scripts/mysql/dump.sh gglb_db'
+
+# ------------------------------------------------------------ #
+# CI by GitHub Actions
+# ------------------------------------------------------------ #
+
+.PHONY: ci-lint
+ci-lint: ## ci: golangci-lint による静的解析
+	which golangci-lint || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin \
+	golangci-lint cache clean
+	golangci-lint run -c ./configs/.golangci.yml
+
+.PHONY: ci-fmt
+ci-fmt: ## ci: goimports による整形
+	which goimports || go get golang.org/x/tools/cmd/goimports
+	goimports -v -w ./

@@ -32,6 +32,6 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-
       - name: Format
-        run: make fmt-import
+        run: make ci-fmt
       - name: Lint
-        run: make lint
+        run: make ci-lint
