@@ -74,7 +74,7 @@ go-imports は gofmt の 上位互換
 % curl "http://localhost:9999/system/health-check"
 ```
 
-## deployment
+## Deployment
 
 coming later...
 
