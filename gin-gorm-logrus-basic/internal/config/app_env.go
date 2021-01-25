@@ -12,7 +12,7 @@ type AppEnv int
 
 // AppEnv 種類
 const (
-	_ AppEnv = iota // 0 無効値
+	UnknownEnv AppEnv = iota // 無効値
 	Local
 	Dev
 	Prd
@@ -36,7 +36,7 @@ func ApplyAppEnv(value string) (AppEnv, error) {
 			return k, nil
 		}
 	}
-	return 0, apperr.NewConfigErrF("unknown AppEnv %s", value)
+	return UnknownEnv, apperr.NewConfigErrF("unknown AppEnv %s", value)
 }
 
 // GetOSEnv 環境変数から APP_ENV を取得
