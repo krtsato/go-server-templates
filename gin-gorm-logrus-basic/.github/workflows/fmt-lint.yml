@@ -2,7 +2,7 @@ name: fmt-lint-push
 on:
   push:
     branches:
-      - master
+      - main
       - develop
       - feature/*
       - fix/*
