@@ -2,7 +2,7 @@ name: fmt-lint-push
 on:
   push:
     paths:
-      - ./gin-gorm-logrus-basic/**
+      - gin-gorm-logrus-basic/**
     branches:
       - main
       - develop
@@ -12,7 +12,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./gin-gorm-logrus-basic
+    working-directory: gin-gorm-logrus-basic
 
 jobs:
   lint:
