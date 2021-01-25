@@ -8,6 +8,10 @@ on:
       - fix/*
       - refactor/*
 
+defaults:
+  run:
+    working-directory: ./gin-gorm-logrus-basic
+
 jobs:
   lint:
     name: Format and Lint
