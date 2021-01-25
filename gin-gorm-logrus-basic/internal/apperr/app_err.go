@@ -12,7 +12,7 @@ type ErrCode int
 
 // ErrCode 種類
 const (
-	UnknownErrCode ErrCode = iota // 0 無効値
+	UnknownErrCode ErrCode = iota // 無効値
 	ConfigErrCode
 	InternalErrCode
 )

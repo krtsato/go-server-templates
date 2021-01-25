@@ -24,7 +24,7 @@ type Level int
 
 // Level 種類
 const (
-	UnknownLevel Level = iota // 無効知 0
+	UnknownLevel Level = iota // 無効知
 	Debug
 	Info
 	Warn
