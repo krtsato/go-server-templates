@@ -11,11 +11,12 @@ on:
       - refactor/*
 
 env:
+  REPOSITORY: ${{ github.repository }}
   GOPATH: ${{ github.workspace }}
 
 defaults:
   run:
-    working-directory: $GOPATH/src/github.com/${{ github.repository }}
+    working-directory: $GOPATH/src/github.com/$REPOSITORY
 
 jobs:
   setup:
