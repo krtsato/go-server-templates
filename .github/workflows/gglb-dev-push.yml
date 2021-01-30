@@ -10,15 +10,14 @@ on:
       - fix/*
       - refactor/*
 
+defaults:
+  run:
+    working-directory: gin-gorm-logrus-basic
+
 jobs:
   lint-test:
     name: Lint and Test
     runs-on: ubuntu-latest
-    env:
-      GOPATH: ${{ github.workspace }}
-    defaults:
-      run:
-        working-directory: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
