@@ -41,6 +41,12 @@ help: ## make コマンド一覧
 lint: ## local: golangci-lint による静的解析
 	docker-compose exec server golangci-lint run -c ./configs/.golangci.yml
 
+.PHONY: ci-lint
+ci-lint: ## local/ci: golangci-lint による静的解析
+	which golangci-lint || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin
+	golangci-lint cache clean
+	golangci-lint run -c ./configs/.golangci.yml
+
 .PHONY: fmt-import
 fmt-import: ## local: goimports のフォーマット
 	docker-compose exec server goimports -w ./
@@ -49,9 +55,13 @@ fmt-import: ## local: goimports のフォーマット
 fmt: ## local: デフォルトのフォーマット
 	docker-compose exec server gofmt -w ./
 
+.PHONY: go-test
+go-test: ## local: テストを実行
+	go test -race -v ./cmd/... ./internal/...
+
 .PHONY: go-build
-go-build: ## dev/prd: デプロイ前にソースコードをビルド
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ./bin/gglb-gin-api ./cmd/gglb-gin-api/{main.go,wire_gen.go}
+go-build: ## local/dev/prd: デプロイ前にソースコードをビルド
+	go build -o ./bin/gglb-gin-api ./cmd/gglb-gin-api/{main.go,wire_gen.go}
 
 # ------------------------------------------------------------ #
 # Docker for local
@@ -160,18 +170,3 @@ local-select-users: ## local: show users
 .PHONY: local-dump
 local-dump: ## local: dump DB
 	docker-compose exec server sh -c './scripts/mysql/dump.sh gglb_db'
-
-# ------------------------------------------------------------ #
-# CI by GitHub Actions
-# ------------------------------------------------------------ #
-
-.PHONY: ci-lint
-ci-lint: ## ci: golangci-lint による静的解析
-	which golangci-lint || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin
-	golangci-lint cache clean
-	golangci-lint run -c ./configs/.golangci.yml
-
-.PHONY: ci-fmt
-ci-fmt: ## ci: goimports による整形
-	which goimports || go get golang.org/x/tools/cmd/goimports
-	goimports -v -w ./

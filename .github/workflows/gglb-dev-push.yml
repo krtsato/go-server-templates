@@ -1,4 +1,4 @@
-name: fmt-lint-push
+name: gglb-dev-push
 on:
   push:
     paths:
@@ -15,23 +15,35 @@ defaults:
     working-directory: gin-gorm-logrus-basic
 
 jobs:
-  fmt-lint:
-    name: Format and Lint
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Set up Go
+      - name: Go Setup
         uses: actions/setup-go@v2
         with:
           go-version: ^1.15
-      - name: Go cache
+      - name: Go Cache
         uses: actions/cache@v2
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-
-      - name: Format
-        run: make ci-fmt
-      - name: Lint
+
+  lint:
+    name: Lint
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make CI Lint
         run: make ci-lint
+
+  test:
+    name: Test
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make Go Test
+        run: make go-test

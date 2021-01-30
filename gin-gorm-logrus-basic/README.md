@@ -2,6 +2,10 @@
 
 ## Requirement
 
+- local 環境：docker-compose
+- CI/CD 環境：Ubuntu
+- dev/prd デプロイ：ローカルマシンの aws-cli
+
 ### Versions
 
 Go v1.15~  
@@ -80,4 +84,4 @@ coming later...
 
 ## Tests
 
-coming later..
+coming later...
