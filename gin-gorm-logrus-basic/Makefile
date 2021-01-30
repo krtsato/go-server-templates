@@ -41,12 +41,6 @@ help: ## make コマンド一覧
 lint: ## local: golangci-lint による静的解析
 	docker-compose exec server golangci-lint run -c ./configs/.golangci.yml
 
-.PHONY: ci-lint
-ci-lint: ## local/ci: golangci-lint による静的解析
-	which golangci-lint || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin
-	golangci-lint cache clean
-	golangci-lint run -c ./configs/.golangci.yml
-
 .PHONY: fmt-import
 fmt-import: ## local: goimports のフォーマット
 	docker-compose exec server goimports -w ./

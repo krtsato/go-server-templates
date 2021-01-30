@@ -39,8 +39,11 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Lint
-        run: make ci-lint
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.36
+          args: -c ./configs/.golangci.yml
 
   test:
     name: Make Go Test
