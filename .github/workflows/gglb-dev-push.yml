@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Go Setup
+        uses: actions/setup-go@v2
       - name: Make CI Lint
         run: make ci-lint
 
