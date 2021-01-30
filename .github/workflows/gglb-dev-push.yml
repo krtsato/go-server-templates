@@ -10,9 +10,12 @@ on:
       - fix/*
       - refactor/*
 
+env:
+  GOPATH: ${{ github.workspace }}
+
 defaults:
   run:
-    working-directory: gin-gorm-logrus-basic
+    working-directory: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
 
 jobs:
   setup:
@@ -39,8 +42,6 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Setup Path
-        run: export PATH=$GOPATH/bin:$PATH
       - name: Make CI Lint
         run: make ci-lint
 
