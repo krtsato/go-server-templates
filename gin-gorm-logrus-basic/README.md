@@ -2,16 +2,18 @@
 
 ## Requirement
 
-- local 環境：docker-compose
-- CI/CD 環境：Ubuntu
-- dev/prd デプロイ：ローカルマシンの aws-cli
-
 ### Versions
 
 Go v1.15~  
 aws-cli v2.0~  
 macOS 64 bit  
 Docker Engine v20.10~
+
+### Runtime
+
+- local 環境：docker-compose
+- CI/CD 環境：Ubuntu
+- dev/prd デプロイ：ローカルマシンの aws-cli
 
 ### Directories
 
