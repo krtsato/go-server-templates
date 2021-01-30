@@ -45,7 +45,7 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.36
-          args: -c ./configs/.golangci.yml
+          args: -c ${{ github.workspace }}/configs/.golangci.yml
 
   test:
     name: Make Go Test
