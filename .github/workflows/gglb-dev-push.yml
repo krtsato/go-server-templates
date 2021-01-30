@@ -10,18 +10,15 @@ on:
       - fix/*
       - refactor/*
 
-env:
-  REPOSITORY: ${{ github.repository }}
-  GOPATH: ${{ github.workspace }}
-
-defaults:
-  run:
-    working-directory: $GOPATH/src/github.com/$REPOSITORY
-
 jobs:
-  setup:
-    name: Setup
+  lint-test:
+    name: Lint and Test
     runs-on: ubuntu-latest
+    env:
+      GOPATH: ${{ github.workspace }}
+    defaults:
+      run:
+        working-directory: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -35,23 +32,7 @@ jobs:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-
-
-  lint:
-    name: Lint
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
       - name: Make CI Lint
         run: make ci-lint
-
-  test:
-    name: Test
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
       - name: Make Go Test
         run: make go-test
