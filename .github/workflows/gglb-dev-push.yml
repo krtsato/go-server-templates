@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: check directory
+        run: pwd && ls -a
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
