@@ -15,8 +15,8 @@ defaults:
     working-directory: gin-gorm-logrus-basic
 
 jobs:
-  lint-test:
-    name: Lint and Test
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -31,7 +31,43 @@ jobs:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go-
-      - name: Make CI Lint
+
+  lint:
+    name: Make CI Lint
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Lint
         run: make ci-lint
-      - name: Make Go Test
+
+  test:
+    name: Make Go Test
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Test
         run: make go-test
+
+#    name: Lint and Test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout Code
+#        uses: actions/checkout@v2
+#      - name: Go Setup
+#        uses: actions/setup-go@v2
+#        with:
+#          go-version: ^1.15
+#      - name: Go Cache
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/go/pkg/mod
+#          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+#          restore-keys: ${{ runner.os }}-go-
+#      - name: Make CI Lint
+#        run: make ci-lint
+#      - name: Make Go Test
+#        run: make go-test
