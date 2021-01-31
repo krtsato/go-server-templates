@@ -1,12 +1,13 @@
 run:
   modules-download-mode: readonly
-  tests: true
+
   skip-dirs:
     - bin
     - build
     - configs
     - deployments
     - docs
+    - scripts
 
 linters:
   enable:
