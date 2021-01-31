@@ -10,9 +10,6 @@ on:
       - fix/*
       - refactor/*
 
-env:
-  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_GITHUB }}
-
 defaults:
   run:
     working-directory: gin-gorm-logrus-basic
@@ -68,6 +65,8 @@ jobs:
     steps:
       - name: Slack Notification
         uses: 8398a7/action-slack@v3
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GITHUB }}
         with:
           author_name: ${{ github.repository }}
           status: ${{ job.status }}
