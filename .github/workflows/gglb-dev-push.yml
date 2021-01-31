@@ -11,7 +11,7 @@ on:
       - refactor/*
 
 env:
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GITHUB }}
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_GITHUB }}
 
 defaults:
   run:
@@ -67,10 +67,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack Notification
-        uses: 8398a7/action-slack@v3
+        uses: rtCamp/action-slack-notify@v2
         with:
-          username: ${{ github.repository }}
-          icon_url: https://emoji.slack-edge.com/T01L10BC6J3/gopher/3e77dab408f85ccb.png
+          SLACK_USERNAME: ${{ github.repository }}
+          SLACK_ICON_EMOJI: ':gopher:'
           status: ${{ job.status }}
           author_name: ${{ github.repository }}
           fields: ref,commit,author,message,repo,workflow
