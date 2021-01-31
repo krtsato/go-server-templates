@@ -70,4 +70,4 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_GITHUB }}
           SLACK_USERNAME: ${{ github.repository }}
-          SLACK_ICON_EMOJI: ':gopher:'
+          SLACK_ICON: https://emoji.slack-edge.com/T01LG4HBVK5/gopher/64c6a6d67d85c69c.png
