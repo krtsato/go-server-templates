@@ -12,7 +12,7 @@ Docker Engine v20.10~
 ### Runtime
 
 - local 環境：docker-compose
-- CI/CD 環境：Ubuntu
+- CI/CD 環境：Ubuntu 
 - dev/prd デプロイ：ローカルマシンの aws-cli
 
 ### Directories
