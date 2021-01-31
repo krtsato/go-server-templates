@@ -10,10 +10,6 @@ on:
       - fix/*
       - refactor/*
 
-env:
-  GO111MODULE: on
-  GOPROXY: direct
-
 defaults:
   run:
     working-directory: gin-gorm-logrus-basic
