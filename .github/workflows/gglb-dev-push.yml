@@ -10,6 +10,9 @@ on:
       - fix/*
       - refactor/*
 
+env:
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_GITHUB }}
+
 defaults:
   run:
     working-directory: gin-gorm-logrus-basic
@@ -63,11 +66,10 @@ jobs:
       - test
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
       - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_GITHUB }}
-          SLACK_USERNAME: ${{ github.repository }}
-          SLACK_ICON: https://emoji.slack-edge.com/T01LG4HBVK5/gopher/64c6a6d67d85c69c.png
+        uses: 8398a7/action-slack@v3
+        with:
+          author_name: ${{ github.repository }}
+          status: ${{ job.status }}
+          fields: ref,commit,author,message,repo,workflow
+        if: always()
