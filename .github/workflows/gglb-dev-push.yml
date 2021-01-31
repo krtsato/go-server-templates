@@ -47,6 +47,7 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.36
+          working-directory: gin-gorm-logrus-basic
           args: -c ${{ github.workspace }}/gin-gorm-logrus-basic/configs/.golangci.yml
 
   test:
