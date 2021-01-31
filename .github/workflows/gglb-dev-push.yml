@@ -74,4 +74,3 @@ jobs:
           status: ${{ job.status }}
           author_name: ${{ github.repository }}
           fields: ref,commit,author,message,repo,workflow
-        if: always()
