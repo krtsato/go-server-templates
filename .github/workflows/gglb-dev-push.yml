@@ -70,7 +70,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           username: ${{ github.repository }}
-          icon_emoji: ':gopher:'
+          icon_url: https://emoji.slack-edge.com/T01L10BC6J3/gopher/3e77dab408f85ccb.png
           status: ${{ job.status }}
           author_name: ${{ github.repository }}
           fields: ref,commit,author,message,repo,workflow
