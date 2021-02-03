@@ -6,6 +6,7 @@ import (
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/access"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/logger/app"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/webapi/controller"
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/webapi/filter"
 )
 
 // Server Web API
@@ -35,17 +36,16 @@ func LoadConfig() (*config.AppConfig, error) {
 }
 
 func newGinEngine(controllers ...controller.GinRouterGroup) *gin.Engine {
+	// middleware を適用
 	engine := gin.Default()
-	/*
-		 	filters := []filter.GinFilter{
-				filter.NewBergRoleFilterRead(webCfg),
-				filter.NewAccessLogFilter(),
-				filter.NewErrorFilter(),
-			}
-			for _, f := range filters {
-				engine.Use(f.Execute)
-			}
-	*/
+	filters := []filter.GinFilter{
+		// filter.NewRoleFilterRead(webCfg),
+		// filter.NewAccessLogFilter(),
+		filter.NewErrorFilter(),
+	}
+	for _, f := range filters {
+		engine.Use(f.Execute)
+	}
 
 	// 各 controller を GinRouterGroup としてエンドポイント化
 	for _, c := range controllers {
