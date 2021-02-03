@@ -4,7 +4,7 @@ package apperr
 type APPErr interface {
 	ErrorCode() ErrCode
 	Error() string
-	UnWrap() error
+	Unwrap() error
 }
 
 // ErrCode APPErr 識別型
