@@ -9,8 +9,8 @@ type ConfigErr struct {
 	Msg   string
 }
 
-// CodeValue ErrCode を返却
-func (e *ConfigErr) CodeValue() ErrCode {
+// ErrorCode ErrCode を返却
+func (e *ConfigErr) ErrorCode() ErrCode {
 	if e == nil {
 		return UnknownErrCode
 	}

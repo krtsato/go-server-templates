@@ -2,7 +2,7 @@ package apperr
 
 // APPErr アプリ内部で取り扱うエラー
 type APPErr interface {
-	CodeValue() ErrCode
+	ErrorCode() ErrCode
 	Error() string
 	UnWrap() error
 }

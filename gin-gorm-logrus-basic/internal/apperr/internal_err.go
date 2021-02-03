@@ -9,8 +9,8 @@ type InternalErr struct {
 	Msg   string
 }
 
-// CodeValue ErrCode を返却
-func (e *InternalErr) CodeValue() ErrCode {
+// ErrorCode ErrCode を返却
+func (e *InternalErr) ErrorCode() ErrCode {
 	if e == nil {
 		return UnknownErrCode
 	}
