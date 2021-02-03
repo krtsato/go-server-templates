@@ -7,6 +7,7 @@ import (
 
 // InternalServer internal server error 500
 // NOTE: クライアントに返却する Internal Server Error は原則 500 番とする
+// 500 番以外の例外を指定するときのみ StsCode に値をセットする
 // アプリ内部で取り扱うエラーは internal/apperr で定義する
 type InternalServer struct {
 	ErrCode ErrCode
