@@ -135,7 +135,7 @@ type NotFound struct {
 	Cause   error
 }
 
-// ErrCode ErrCode を返却
+// ErrorCode ErrCode を返却
 func (n *NotFound) ErrorCode() ErrCode {
 	return n.ErrCode
 }

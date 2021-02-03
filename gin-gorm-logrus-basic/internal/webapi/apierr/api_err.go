@@ -1,6 +1,6 @@
 package apierr
 
-// APIError Web API で取り扱うエラー
+// APIErr Web API で取り扱うエラー
 type APIErr interface {
 	ErrorCode() ErrCode
 	StatusCode() int
