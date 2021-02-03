@@ -27,24 +27,24 @@ func (ErrorFilter) Execute(c *gin.Context) {
 	}
 
 	switch err := lastElm.Err.(type) {
-	case apierr.APIError: // Web API のエラーハンドリング
+	case apierr.APIErr:
 		handleAPIError(c, err)
 	default:
 		c.AbortWithStatusJSON(http.StatusInternalServerError, apityp.ResultJSON{Error: err.Error()})
-		app.Log.Errorf("Undefined Error: %v", err)
+		app.Log.Entry.Errorf("Undefined Error: %s", err.Error())
 	}
 }
 
-func handleAPIError(c *gin.Context, err apierr.APIError) {
-	errType := err.ErrorType()
+func handleAPIError(c *gin.Context, err apierr.APIErr) {
+	errCode := err.ErrorCode()
 
-	switch errType {
-	case apierr.PublicErrType: // publicErrorType
-		c.AbortWithStatusJSON(err.StatusCode(), api.ResultJSON{Error: err.Error()})
-	case apierr.PrivateErrType: // privateErrorType
+	switch errCode {
+	case apierr.PublicErrCode:
+		c.AbortWithStatusJSON(err.StatusCode(), apityp.ResultJSON{Error: err.Error()})
+	case apierr.PrivateErrCode:
 		c.AbortWithStatus(err.StatusCode())
-	default: // unknownErrorType
-		c.AbortWithStatus(err.StatusCode())
+	default: // unknownErrCode
+		c.AbortWithStatusJSON(err.StatusCode(), apityp.ResultJSON{Error: err.Error()})
 	}
-	app.Log.Errorf("Web API %s: %v", errType.String(), err)
+	app.Log.Entry.Errorf("Web API %s: %s", errCode.String(), err.Error())
 }
