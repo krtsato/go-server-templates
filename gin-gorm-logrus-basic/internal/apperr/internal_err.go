@@ -3,6 +3,7 @@ package apperr
 import "fmt"
 
 // InternalErr 初期化後のアプリ内部エラー
+// クライアント側にエラー内容を隠蔽するとき Msg をセットする
 type InternalErr struct {
 	Code  ErrCode
 	Cause error
@@ -21,11 +22,11 @@ func (e *InternalErr) ErrorCode() ErrCode {
 func (e *InternalErr) Error() string {
 	if e == nil {
 		return ""
-	} else if e.Cause == nil {
-		return fmt.Sprintf("Msg: %s", e.Msg)
-	} else {
-		return fmt.Sprintf("Cause: %s, Msg: %s", e.Unwrap().Error(), e.Msg)
 	}
+	if e.Msg == "" {
+		return fmt.Sprintf("Error Cause: %s", e.Unwrap().Error())
+	}
+	return fmt.Sprintf("Error Message: %s", e.Msg)
 }
 
 // Unwrap InternalErr をアンラップ
