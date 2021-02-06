@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AccessLogFilter アクセスログのログ出力
+// AccessLogFilter アクセスログの出力
 type AccessLogFilter struct{}
 
 // NewAccessLogFilter middleware を生成
@@ -19,7 +19,7 @@ func NewAccessLogFilter() *AccessLogFilter {
 	return &AccessLogFilter{}
 }
 
-// Execute GinFilter の実装
+// Execute GinFilter interface の実装
 func (AccessLogFilter) Execute(c *gin.Context) {
 	start := time.Now()
 	body := extractRequestBody(c.Request)

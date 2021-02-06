@@ -40,7 +40,7 @@ func newGinEngine(controllers ...controller.GinRouterGroup) *gin.Engine {
 	engine := gin.Default()
 	filters := []filter.GinFilter{
 		// filter.NewRoleFilterRead(webCfg),
-		// filter.NewAccessLogFilter(),
+		filter.NewAccessLogFilter(),
 		filter.NewErrorFilter(),
 	}
 	for _, f := range filters {

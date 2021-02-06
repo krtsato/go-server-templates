@@ -18,7 +18,7 @@ func NewErrorFilter() *ErrorFilter {
 	return &ErrorFilter{}
 }
 
-// Execute Filter interface の実装
+// Execute GinFilter interface の実装
 func (ErrorFilter) Execute(c *gin.Context) {
 	c.Next()
 	lastElm := c.Errors.Last()
