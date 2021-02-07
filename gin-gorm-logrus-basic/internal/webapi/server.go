@@ -35,11 +35,11 @@ func LoadConfig() (*config.AppConfig, error) {
 	return cfg, nil
 }
 
-func newGinEngine(controllers ...controller.GinRouterGroup) *gin.Engine {
+func newGinEngine(webCfg config.Web, controllers ...controller.GinRouterGroup) *gin.Engine {
 	// middleware を適用
 	engine := gin.Default()
 	filters := []filter.GinFilter{
-		// filter.NewRoleFilterRead(webCfg),
+		filter.NewRoleFilterReader(webCfg),
 		filter.NewAccessLogFilter(),
 		filter.NewErrorFilter(),
 	}
