@@ -18,10 +18,10 @@ const (
 
 // AppConfig 環境単位の設定値
 type AppConfig struct {
-	AppEnv string `yaml:"appEnv"`
-	// DB     DB            `yaml:"db"`
-	Log logger.Config `yaml:"log"`
-	Web Web           `yaml:"web"`
+	AppEnv string        `yaml:"appEnv"`
+	DB     DB            `yaml:"db"`
+	Log    logger.Config `yaml:"log"`
+	Web    Web           `yaml:"web"`
 }
 
 // AppConfigs 全環境の設定値群
