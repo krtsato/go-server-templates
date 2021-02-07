@@ -69,9 +69,9 @@ func (l *Level) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		return err
 	}
 
-	level, applyErr := applyLevel(str)
-	if applyErr != nil {
-		return applyErr
+	level, err := applyLevel(str)
+	if err != nil {
+		return err
 	}
 
 	*l = level
@@ -132,9 +132,9 @@ func (f *Format) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		return err
 	}
 
-	format, applyErr := applyFormat(str)
-	if applyErr != nil {
-		return applyErr
+	format, err := applyFormat(str)
+	if err != nil {
+		return err
 	}
 
 	*f = format
