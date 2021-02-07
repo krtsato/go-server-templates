@@ -31,7 +31,7 @@ func (ErrorFilter) Execute(c *gin.Context) {
 		handleAPIError(c, err)
 	default:
 		c.AbortWithStatusJSON(http.StatusInternalServerError, apityp.ResultJSON{Error: err.Error()})
-		app.Log.Entry.Errorf("Undefined Error: %s", err.Error())
+		app.Log.Errorf("Undefined Error: %s", err.Error())
 	}
 }
 
@@ -46,5 +46,5 @@ func handleAPIError(c *gin.Context, err apierr.APIErr) {
 	default: // unknownErrCode
 		c.AbortWithStatusJSON(err.StatusCode(), apityp.ResultJSON{Error: err.Error()})
 	}
-	app.Log.Entry.Errorf("Web API %s: %s", errCode.String(), err.Error())
+	app.Log.Errorf("Web API %s: %s", errCode.String(), err.Error())
 }

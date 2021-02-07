@@ -12,7 +12,7 @@ import (
 
 // Logger access logger
 type Logger struct {
-	Logger *logrus.Logger
+	*logrus.Logger
 }
 
 // Log 呼び出される Logger インスタンス
