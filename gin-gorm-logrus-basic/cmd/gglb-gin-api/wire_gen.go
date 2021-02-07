@@ -15,6 +15,6 @@ import (
 
 func InitializeGinApp(webCfg config.Web) (*webapi.GinApp, error) {
 	system := controller.InjectSystem()
-	ginApp := webapi.NewGinApp(system)
+	ginApp := webapi.NewGinApp(webCfg, system)
 	return ginApp, nil
 }

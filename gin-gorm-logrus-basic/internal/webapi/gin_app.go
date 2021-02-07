@@ -3,6 +3,8 @@ package webapi
 import (
 	"fmt"
 
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/config"
+
 	"github.com/gin-gonic/gin"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/webapi/controller"
 )
@@ -29,7 +31,7 @@ func (a *GinApp) Shutdown() {
 }
 
 // NewGinApp GinApp を生成
-func NewGinApp( /*webCfg config.Web,*/ system *controller.System) *GinApp {
-	engine := newGinEngine( /*webCfg, */ system)
+func NewGinApp(webCfg config.Web, system *controller.System) *GinApp {
+	engine := newGinEngine(webCfg, system)
 	return &GinApp{Engine: engine}
 }
