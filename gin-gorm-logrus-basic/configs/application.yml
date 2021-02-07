@@ -1,6 +1,6 @@
 - appEnv: default
   db:
-    dbEnv: dev
+    env: dev
     gglbdb:
       driver: mysql
       useConnPool: true
@@ -21,7 +21,7 @@
 
 - appEnv: local
   db:
-    dbEnv: local
+    env: local
     gglbdb:
       reader:
         host: mysql
@@ -43,7 +43,7 @@
 
 - appEnv: dev
   db:
-    dbEnv: dev
+    env: dev
     gglbdb:
       reader:
         host: # Cloud DB URL
@@ -65,7 +65,7 @@
 
 - appEnv: prd
   db:
-    dbEnv: prd
+    env: prd
     gglbdb:
       driver: mysql
       useConnPool: true

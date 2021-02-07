@@ -1,8 +1,9 @@
 package infra
 
 import (
-	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 	"strings"
+
+	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/apperr"
 )
 
 // DBEnv Enum
