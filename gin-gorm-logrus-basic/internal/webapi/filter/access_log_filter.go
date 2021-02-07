@@ -37,6 +37,8 @@ func (AccessLogFilter) Execute(c *gin.Context) {
 }
 
 // Request Body を文字列で返却
+// 引数が c.Request.Body (io.ReadCloser) でない理由
+// ポインタ (*http.Request) を経由して Body を上書きするため
 func extractRequestBody(req *http.Request) string {
 	buf, err := ioutil.ReadAll(req.Body)
 	if err != nil {
@@ -44,9 +46,9 @@ func extractRequestBody(req *http.Request) string {
 	}
 	body := string(buf)
 
-	// NopCloser により Closer インタフェースを付与することで
-	// io.ReaderCloser が実装される
-	// 後続の処理で Request Body を読み込めるようになる
+	// NopCloser により Close() メソッドを付与することで Closer インターフェースを満たす
+	// bytes.NewBuffer(buf) の結果に io.ReaderCloser が実装されるため
+	// 後続の処理で Request Body を読み込める
 	req.Body = ioutil.NopCloser(bytes.NewBuffer(buf))
 	return body
 }
