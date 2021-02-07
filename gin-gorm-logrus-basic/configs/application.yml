@@ -39,7 +39,7 @@
     fullPath: /var/log/gglb/app.log
   web:
     port: 9999
-    authCheck: false
+    authCheck: true
 
 - appEnv: dev
   db:
@@ -61,7 +61,7 @@
     fullPath:
   web:
     port: 9999
-    authCheck: false
+    authCheck: true
 
 - appEnv: prd
   db:

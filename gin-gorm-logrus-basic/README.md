@@ -77,7 +77,8 @@ go-imports は gofmt の 上位互換
 
 ```shell
 % make local-up-all
-% curl "http://localhost:9999/system/health-check"
+% curl "http://localhost:9999/system/health-check" \
+  -H 'X-Auth-Account:{"mail":"example@email.com", "name":"example", "roles":["adminRole"]}'
 ```
 
 ## Deployment
