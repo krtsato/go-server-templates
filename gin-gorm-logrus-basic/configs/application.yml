@@ -76,7 +76,7 @@
         host: # Cloud DB URL
         port: 3306
         user: user_r
-        pass: pass_w
+        pass: pass_r
       writer:
         host: # Cloud DB URL
         port: 3306

@@ -4,6 +4,6 @@ import "github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/infr
 
 // DB database env
 type DB struct {
-	Env infra.DBEnv `yaml:"env"`
-	// GglbDB infra.Datasource `yaml:"gglbdb"`
+	Env    infra.DBEnv      `yaml:"env"`
+	GglbDB infra.Datasource `yaml:"gglbdb"`
 }

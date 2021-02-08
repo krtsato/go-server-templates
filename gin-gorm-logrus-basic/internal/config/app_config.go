@@ -29,7 +29,7 @@ type AppConfigs []*AppConfig
 
 // LoadConfig アプリケーションで使用する Config を決定
 func LoadConfig(e AppEnv) (*AppConfig, error) {
-	fmt.Printf("start to load config... %v\n", e)
+	fmt.Printf("start to load config: %v\n", e)
 
 	ymlConfigs, readErr := ioutil.ReadFile(appConfigPath)
 	if readErr != nil {
