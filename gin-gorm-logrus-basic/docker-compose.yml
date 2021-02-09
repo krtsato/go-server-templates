@@ -16,7 +16,7 @@ services:
       - 9999:9999
     volumes:
       - .:/var/app/gglb
-      - ./internal/infra/mysql/dump:/var/dump
+      - ./pkg/infra/mysql/dump:/var/dump
       - ./internal/logger/app/log:/var/log/gglb
 
   mysql:
@@ -31,9 +31,9 @@ services:
       - 9998:3306
     volumes:
       - mysql-vol:/var/lib/mysql
-      - ./configs/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
-      - ./internal/infra/mysql/initdb.d:/docker-entrypoint-initdb.d
-      - ./internal/infra/mysql/log:/var/log/mysql
+      - ./pkg/infra/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./pkg/infra/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./pkg/infra/mysql/log:/var/log/mysql
 
 volumes:
   mysql-vol:

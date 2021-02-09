@@ -19,7 +19,7 @@ full_bin = "APP_USER=air ./bin/gglb-gin-api"
 include_ext = ["go", "yml", "yaml"]
 
 # Ignore these filename extensions or directories.
-exclude_dir = ["build", "deployments", "docs", "internal/infra/mysql"]
+exclude_dir = ["build", "deployments", "docs", "pkg/infra/mysql"]
 
 # Watch these directories if you specified.
 include_dir = ["cmd", "internal", "configs"]

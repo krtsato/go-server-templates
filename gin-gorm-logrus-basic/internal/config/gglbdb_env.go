@@ -1,6 +1,6 @@
 package config
 
-import "github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/internal/infra"
+import "github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/pkg/infra"
 
 // DB database env
 type DB struct {

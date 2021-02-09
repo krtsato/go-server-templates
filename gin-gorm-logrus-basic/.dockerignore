@@ -3,9 +3,9 @@ build
 configs/mysql.cnf
 deployments
 docs
-internal/infra/mysql/log
-internal/infra/mysql/dump
-internal/infra/mysql/initdb.d
+pkg/infra/mysql/log
+pkg/infra/mysql/dump
+pkg/infra/mysql/initdb.d
 internal/logger/app/log
 scripts/make
 docker-compose.yml
