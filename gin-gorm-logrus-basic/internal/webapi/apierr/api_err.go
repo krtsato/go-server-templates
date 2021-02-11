@@ -7,7 +7,7 @@ type APIErr interface {
 	Error() string
 }
 
-// ErrCode APIErr 識別型
+// ErrCode APIErr Enum
 type ErrCode int
 
 // ErrCode 種類

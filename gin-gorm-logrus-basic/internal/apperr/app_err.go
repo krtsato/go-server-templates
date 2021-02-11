@@ -7,7 +7,7 @@ type APPErr interface {
 	Unwrap() error
 }
 
-// ErrCode APPErr 識別型
+// ErrCode APPErr Enum
 type ErrCode int
 
 // ErrCode 種類

@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Role アカウント権限 識別型
+// Role アカウント権限 Enum
 type Role int
 
 // Roles Role スライス
