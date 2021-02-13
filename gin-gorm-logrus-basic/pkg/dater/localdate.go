@@ -11,11 +11,11 @@ import (
 	"time"
 )
 
-// time const
+// Date const
 const (
 	LocalDateRegex                   = "^(\\d{4})-(\\d{1,2})-(\\d{1,2})"
 	LocalDateTimeRegex               = "^(\\d{4})-(\\d{1,2})-(\\d{1,2})\\ (\\d{1,2}):(\\d{1,2}):(\\d{1,2})"
-	MaxYear            uint          = 999999999 // mysqlの最大値とは異なるため注意.
+	MaxYear            uint          = 999999999 // mysqlの最大値とは異なるため注意
 	MinYear            uint          = 0
 	MaxMonthOfYear     uint          = 12
 	MinMonthOfYear     uint          = 1
@@ -60,7 +60,7 @@ func (d LocalDate) Value() (driver.Value, error) {
 	return year + "-" + month + "-" + day, nil
 }
 
-// Scan for go-sql-driver DBの値からの変換の際に使用します.
+// Scan DB データを取得・変換 for go-sql-driver
 func (d *LocalDate) Scan(value interface{}) error {
 	if d == nil || value == nil {
 		return fmt.Errorf("nil value %v", value)
@@ -94,7 +94,7 @@ func groupSubMatch(target, regex string) ([]string, error) {
 	return reg.FindStringSubmatch(target), nil
 }
 
-// String to string
+// String LocalDate に応じた文字列を返却
 func (d LocalDate) String() string {
 	val, _ := d.Value()
 	return val.(string)
