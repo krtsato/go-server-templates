@@ -41,6 +41,12 @@ func NowJST() time.Time {
 	return time.Now().In(loc)
 }
 
+// ToJST 時間を JST に変換
+func ToJST(t time.Time) time.Time {
+	loc := AsiaTokyo.Location()
+	return t.In(loc)
+}
+
 // NowUTC 現在の UTC 時間を返却
 func NowUTC() time.Time {
 	loc := UTC.Location()
@@ -50,12 +56,6 @@ func NowUTC() time.Time {
 // ToUTC 時間を UTC に変換
 func ToUTC(t time.Time) time.Time {
 	loc := UTC.Location()
-	return t.In(loc)
-}
-
-// ToJST 時間を JST に変換
-func ToJST(t time.Time) time.Time {
-	loc := AsiaTokyo.Location()
 	return t.In(loc)
 }
 
