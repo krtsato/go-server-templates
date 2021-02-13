@@ -3,7 +3,6 @@ package dater
 import (
 	"database/sql/driver"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -11,7 +10,7 @@ import (
 	"time"
 )
 
-// Date const
+// LocalDate const
 const (
 	LocalDateRegex                   = "^(\\d{4})-(\\d{1,2})-(\\d{1,2})"
 	LocalDateTimeRegex               = "^(\\d{4})-(\\d{1,2})-(\\d{1,2})\\ (\\d{1,2}):(\\d{1,2}):(\\d{1,2})"
@@ -32,60 +31,80 @@ const (
 	FirstUnixInAD      int64         = -62135596800
 )
 
-// LocalDate goのtime型はtimezone情報を持つため, DB接続時の設定timezoneに応じて変換が行われるためそれを回避.
-//           以下functionは必要に応じて追加する
+// LocalDate DB 接続時の timezone 設定による変換を回避
+// Go の time 型は timezone 情報を持っている
 type LocalDate struct {
 	Year  uint
 	Month uint
 	Day   uint
 }
 
-// Valid valid localDate
-func (d LocalDate) Valid() (LocalDate, error) {
-	if d.Year < MinYear || MaxYear < d.Year {
-		return d, fmt.Errorf("out of range ! year :%d", d.Year)
+// Value LocalDate に応じた日付 YYYY-MM-DD を返却
+// go-sql-driver で使用するためダックタイピングz
+func (d *LocalDate) Value() (driver.Value, error) {
+	if d == nil {
+		return nil, fmt.Errorf("nil receiver of LocalDate is invalid")
 	}
-	if d.Month < MinMonthOfYear || MaxMonthOfYear < d.Month {
-		return d, fmt.Errorf("out of range ! month: %d", d.Month)
-	}
-	if d.Day < MinDayOfMonth || MaxDayOfMonth < d.Day {
-		return d, fmt.Errorf("out of range ! day: %d", d.Day)
-	}
-	return d, nil
-}
-
-// Value for go-sql-driver
-func (d LocalDate) Value() (driver.Value, error) {
 	year, month, day := d.SplitString()
 	return year + "-" + month + "-" + day, nil
 }
 
-// Scan DB データを取得・変換 for go-sql-driver
+// Scan DB レコードをメモリ上にスキャン
+// go-sql-driver で使用するためダックタイピング
 func (d *LocalDate) Scan(value interface{}) error {
-	if d == nil || value == nil {
-		return fmt.Errorf("nil value %v", value)
+	if d == nil {
+		return fmt.Errorf("nil receiver of LocalDate is invalid")
 	}
-	if sv, ce := driver.String.ConvertValue(value); ce == nil {
-		if v, ok := sv.(string); ok {
-			groups, ge := groupSubMatch(v, LocalDateRegex)
-			if ge != nil {
-				return fmt.Errorf(" failed to convert LocalDate! %v", ge.Error())
-			} else if len(groups) < 4 {
-				return fmt.Errorf("failed to convert LocalDate! ( in grouping ) len: %d", len(groups))
-			}
-			year, ye := strconv.Atoi(groups[1])
-			month, me := strconv.Atoi(groups[2])
-			day, de := strconv.Atoi(groups[3])
-			if ye != nil || me != nil || de != nil {
-				return fmt.Errorf("failed to convert LocalDate! groups [ %s, %s, %s ]", groups[1], groups[2], groups[3])
-			}
-			*d = LocalDate{Year: uint(year), Month: uint(month), Day: uint(day)}
-			return nil
-		}
+	if value == nil {
+		return fmt.Errorf("failed to scan the empty interface argument")
 	}
-	return errors.New("failed to scan LocalDatetime")
+
+	convVal, convErr := driver.String.ConvertValue(value)
+	if convErr != nil {
+		return fmt.Errorf("failed to convert LocalDate: %s", convErr.Error())
+	}
+
+	val, ok := convVal.(string)
+	if !ok {
+		return fmt.Errorf("failed to assert LocalDate type")
+	}
+
+	matchVals, matchErr := groupSubMatch(val, LocalDateRegex)
+	if matchErr != nil {
+		return fmt.Errorf("failed to match LocalDate: %v", matchErr.Error())
+	}
+	if len(matchVals) < 4 {
+		return fmt.Errorf("failed to match LocalDate in the group len: %d", len(matchVals))
+	}
+
+	year, yErr := strconv.Atoi(matchVals[1])
+	month, mErr := strconv.Atoi(matchVals[2])
+	day, dErr := strconv.Atoi(matchVals[3])
+	if yErr != nil || mErr != nil || dErr != nil {
+		return fmt.Errorf("failed to convert LocalDate groups [ %s, %s, %s ]", matchVals[1], matchVals[2], matchVals[3])
+	}
+
+	*d = LocalDate{Year: uint(year), Month: uint(month), Day: uint(day)}
 }
 
+// Valid 有効期間内の LocalDate を返却
+func (d *LocalDate) Valid() (*LocalDate, error) {
+	if d == nil {
+		return &LocalDate{}, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	if d.Year < MinYear || MaxYear < d.Year {
+		return &LocalDate{}, fmt.Errorf("%d is out of range", d.Year)
+	}
+	if d.Month < MinMonthOfYear || MaxMonthOfYear < d.Month {
+		return &LocalDate{}, fmt.Errorf("%d is out of range", d.Month)
+	}
+	if d.Day < MinDayOfMonth || MaxDayOfMonth < d.Day {
+		return &LocalDate{}, fmt.Errorf("%d is out of range", d.Day)
+	}
+	return d, nil
+}
+
+// groupSubMatch 正規表現にマッチする文字列グループを返却
 func groupSubMatch(target, regex string) ([]string, error) {
 	reg, err := regexp.Compile(regex)
 	if err != nil {
@@ -95,14 +114,24 @@ func groupSubMatch(target, regex string) ([]string, error) {
 }
 
 // String LocalDate に応じた文字列を返却
-func (d LocalDate) String() string {
-	val, _ := d.Value()
-	return val.(string)
+func (d *LocalDate) String() (string, error) {
+	if d == nil {
+		return "", fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	val, err := d.Value()
+	if err != nil {
+		return "", err
+	}
+	return val.(string), nil
 }
 
-// SplitString year,month,dayを桁数をそろえて返却します.
-//            (year,month,day)= (2000,1,3) ---> "2000", "01", "03"
-func (d LocalDate) SplitString() (yearStr, monthStr, dayStr string) {
+// SplitString Year, Month, Day の桁数を揃えて返却
+// ex) 2021, 1, 1 -> "2021", "01", "01"
+func (d *LocalDate) SplitString() (yearStr, monthStr, dayStr string, err error) {
+	if d == nil {
+		return "", "", "", fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+
 	var year, month, day string
 	switch {
 	case d.Year < 10:
@@ -114,6 +143,7 @@ func (d LocalDate) SplitString() (yearStr, monthStr, dayStr string) {
 	default:
 		year = strconv.Itoa(int(d.Year))
 	}
+
 	if d.Month < 10 {
 		month = "0" + strconv.Itoa(int(d.Month))
 	} else {
@@ -125,69 +155,108 @@ func (d LocalDate) SplitString() (yearStr, monthStr, dayStr string) {
 	} else {
 		day = strconv.Itoa(int(d.Day))
 	}
-	return year, month, day
+
+	return year, month, day, nil
 }
 
-// ToTime locを元にTime型へ変換します.
-func (d LocalDate) ToTime(loc *time.Location) time.Time {
-	return time.Date(int(d.Year), time.Month(int(d.Month)), int(d.Day), 0, 0, 0, 0, loc)
+// ToTime Location に応じた時間を返却
+func (d *LocalDate) ToTime(loc *time.Location) (time.Time, error) {
+	if d == nil {
+		return time.Time{}, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	return time.Date(int(d.Year), time.Month(int(d.Month)), int(d.Day), 0, 0, 0, 0, loc), nil
 }
 
-// ToTimeUtc UTCベースでTime型へ変換します.
-func (d LocalDate) ToTimeUtc() time.Time {
+// ToTimeUTC UTC 時間を返却
+func (d *LocalDate) ToTimeUTC() (time.Time, error) {
+	if d == nil {
+		return time.Time{}, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
 	loc := UTC.Location()
 	return d.ToTime(loc)
 }
 
-// Before 日付の前後を判定します
-func (d LocalDate) Before(targetDate LocalDate) bool {
-	firstDate := d.ToTimeUtc()
-	secondDate := targetDate.ToTimeUtc()
-
-	return firstDate.Before(secondDate)
+// Before LocalDate が引数よりも遅れた日付のとき true を返却
+func (d *LocalDate) Before(targetDate LocalDate) (bool, error) {
+	if d == nil {
+		return false, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	firstDate, firstErr := d.ToTimeUTC()
+	if firstErr != nil {
+		return false, firstErr
+	}
+	secondDate, secondErr := targetDate.ToTimeUTC()
+	if secondErr != nil {
+		return false, secondErr
+	}
+	return firstDate.Before(secondDate), nil
 }
 
-// After 日付の前後を判定します
-func (d LocalDate) After(targetDate LocalDate) bool {
-	firstDate := d.ToTimeUtc()
-	secondDate := targetDate.ToTimeUtc()
-	return firstDate.After(secondDate)
+// After LocalDate が引数よりも進んだ日付のとき true を返却
+func (d *LocalDate) After(targetDate LocalDate) (bool, error) {
+	if d == nil {
+		return false, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	firstDate, firstErr := d.ToTimeUTC()
+	if firstErr != nil {
+		return false, firstErr
+	}
+	secondDate, secondErr := targetDate.ToTimeUTC()
+	if secondErr != nil {
+		return false, secondErr
+	}
+	return firstDate.After(secondDate), nil
 }
 
 // Equal localDate equal?
-func (d LocalDate) Equal(targetDate LocalDate) bool {
-	return d.ToTimeUtc().Equal(targetDate.ToTimeUtc())
+func (d *LocalDate) Equal(targetDate LocalDate) (bool, error) {
+	if d == nil {
+		return false, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	return d.ToTimeUTC().Equal(targetDate.ToTimeUTC()), nil
 }
 
 // Between localDate between ?
-func (d LocalDate) Between(start, end LocalDate) bool {
-	return (d.After(start) || d.Equal(start)) && (d.Equal(end) || d.Before(end))
+func (d *LocalDate) Between(start, end LocalDate) (bool, error) {
+	return (d.After(start) || d.Equal(start)) && (d.Equal(end) || d.Before(end)), nil
 }
 
 // IsZero localDate is zero?
-func (d LocalDate) IsZero() bool {
-	return d.Year == 0 && d.Month == 0 && d.Day == 0
+func (d *LocalDate) IsZero() (bool, error) {
+	if d == nil {
+		return false, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	return d.Year == 0 && d.Month == 0 && d.Day == 0, nil
 }
 
 // LocalDatetime date to LocalDatetime
-func (d LocalDate) LocalDatetime() LocalDatetime {
-	return LocalDatetime{
-		LocalDate: d,
-		LocalTime: LocalTime{Hour: 0, Minute: 0, Second: 0},
+func (d *LocalDate) LocalDatetime() (*LocalDatetime, error) {
+	if d == nil {
+		return &LocalDatetime{}, fmt.Errorf("nil receiver of LocalDate is invalid")
 	}
+	return &LocalDatetime{
+		LocalDate: *d,
+		LocalTime: LocalTime{Hour: 0, Minute: 0, Second: 0},
+	}, nil
 }
 
 // Sub dtm - target 290年以上の期間は扱えません
-func (d LocalDate) Sub(target LocalDate) (time.Duration, bool) {
-	duration := d.ToTimeUtc().Sub(target.ToTimeUtc())
-	if duration == MaxDuration || duration == MinDuration {
-		return duration, false
+func (d *LocalDate) Sub(target LocalDate) (time.Duration, bool, error) {
+	if d == nil {
+		return 0, false, fmt.Errorf("nil receiver of LocalDate is invalid")
 	}
-	return duration, true
+	duration := d.ToTimeUTC().Sub(target.ToTimeUTC())
+	if duration == MaxDuration || duration == MinDuration {
+		return duration, false, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	return duration, true, nil
 }
 
 // MarshalJSON for json return format: yyyy-MM-dd
-func (d LocalDate) MarshalJSON() ([]byte, error) {
+func (d *LocalDate) MarshalJSON() ([]byte, error) {
+	if d == nil {
+		return nil, fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
 	if d.IsZero() {
 		return json.Marshal(nil)
 	}
@@ -196,8 +265,11 @@ func (d LocalDate) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON for json default format yyyy-MM-dd
 func (d *LocalDate) UnmarshalJSON(data []byte) error {
-	if d == nil || len(data) == 0 {
-		return errors.New("failed to UnmarshalJSON LocalDate. receiver is nil or data len is 0")
+	if d == nil {
+		return fmt.Errorf("nil receiver of LocalDate is invalid")
+	}
+	if len(data) == 0 {
+		return fmt.Errorf("failed to UnmarshalJSON LocalDate. receiver is nil or data len is 0")
 	}
 	var str string
 	if unmarshalErr := json.Unmarshal(data, &str); unmarshalErr != nil {
@@ -212,12 +284,12 @@ func (d *LocalDate) UnmarshalJSON(data []byte) error {
 }
 
 // NewLocalDate new localDate
-func NewLocalDate(year, month, day int) LocalDate {
+func NewLocalDate(year, month, day int) *LocalDate {
 	tm := time.Date(year, time.Month(month), day, 0, 0, 0, 0, UTC.Location())
 	if tm.Unix() < FirstUnixInAD {
-		return LocalDate{}
+		return &LocalDate{}
 	}
-	return LocalDate{Year: uint(tm.Year()), Month: uint(tm.Month()), Day: uint(tm.Day())}
+	return &LocalDate{Year: uint(tm.Year()), Month: uint(tm.Month()), Day: uint(tm.Day())}
 }
 
 // ========= nullable LocalDateを表現します.  =========
@@ -262,7 +334,7 @@ func (nd NullLocalDate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON for json default format yyyy-MM-dd
 func (nd *NullLocalDate) UnmarshalJSON(data []byte) error {
 	if nd == nil {
-		return errors.New("failed to UnmarshalJSON NullLocalDate. receiver is nil")
+		return fmt.Errorf("failed to UnmarshalJSON NullLocalDate. receiver is nil")
 	}
 	if len(data) == 0 || strings.EqualFold(string(data), "null") {
 		nd.LocalDate, nd.Valid = LocalDate{}, false
@@ -372,15 +444,15 @@ func (dt LocalDatetime) String() string {
 // Scan for go-sql-driver DBの戻り値から返還の際に使用します.
 func (dt *LocalDatetime) Scan(value interface{}) error {
 	if dt == nil || value == nil {
-		return errors.New(fmt.Sprint(" nil value ", value))
+		return fmt.Errorf(fmt.Sprint(" nil value ", value))
 	}
 	if sv, ce := driver.String.ConvertValue(value); ce == nil {
 		if v, ok := sv.(string); ok {
 			groups, ge := groupSubMatch(v, LocalDateTimeRegex)
 			if ge != nil {
-				return errors.New("failed to convert LocalDatetime!" + ge.Error())
+				return fmt.Errorf("failed to convert LocalDatetime!" + ge.Error())
 			} else if len(groups) < 7 {
-				return errors.New("failed to convert LocalDatetime! (in grouping) len: " + strconv.Itoa(len(groups)))
+				return fmt.Errorf("failed to convert LocalDatetime! (in grouping) len: " + strconv.Itoa(len(groups)))
 			}
 			y, ye := strconv.Atoi(groups[1])
 			m, me := strconv.Atoi(groups[2])
@@ -390,7 +462,7 @@ func (dt *LocalDatetime) Scan(value interface{}) error {
 			sec, se := strconv.Atoi(groups[6])
 
 			if ye != nil || me != nil || de != nil || he != nil || minErr != nil || se != nil {
-				return errors.New("failed to convert LocalDatetime! groups [ " + groups[1] + ", " + groups[2] + ", " + groups[3] + ", " + groups[4] + ", " + groups[5] + ", " + groups[6] + " ]")
+				return fmt.Errorf("failed to convert LocalDatetime! groups [ " + groups[1] + ", " + groups[2] + ", " + groups[3] + ", " + groups[4] + ", " + groups[5] + ", " + groups[6] + " ]")
 			}
 			*dt = LocalDatetime{
 				LocalDate: LocalDate{Year: uint(y), Month: uint(m), Day: uint(d)},
@@ -399,7 +471,7 @@ func (dt *LocalDatetime) Scan(value interface{}) error {
 			return nil
 		}
 	}
-	return errors.New("failed to scan LocalDatetime")
+	return fmt.Errorf("failed to scan LocalDatetime")
 }
 
 // MarshalJSON for json return format: yyyy-MM-dd hh:mm:ss
@@ -418,7 +490,7 @@ func (dt LocalDatetime) MarshalJSON() ([]byte, error) {
 //  }
 func (dt *LocalDatetime) UnmarshalJSON(data []byte) error {
 	if dt == nil || len(data) == 0 {
-		return errors.New("failed to UnmarshalJSON LocalDatetime. receiver is nil or data len is 0")
+		return fmt.Errorf("failed to UnmarshalJSON LocalDatetime. receiver is nil or data len is 0")
 	}
 	var str string
 	if unmarshalErr := json.Unmarshal(data, &str); unmarshalErr != nil {
@@ -438,23 +510,23 @@ func (dt LocalDatetime) ToTime(loc *time.Location) time.Time {
 		int(dt.LocalTime.Hour), int(dt.LocalTime.Minute), int(dt.LocalTime.Second), 0, loc)
 }
 
-// ToTimeUtc UTCベースでTime型へ変換します.
-func (dt LocalDatetime) ToTimeUtc() time.Time {
+// ToTimeUTC UTCベースでTime型へ変換します.
+func (dt LocalDatetime) ToTimeUTC() time.Time {
 	loc := UTC.Location()
 	return dt.ToTime(loc)
 }
 
 // Before localDatetime is before
 func (dt LocalDatetime) Before(targetDateTime LocalDatetime) bool {
-	firstDateTime := dt.ToTimeUtc()
-	secondDateTime := targetDateTime.ToTimeUtc()
+	firstDateTime := dt.ToTimeUTC()
+	secondDateTime := targetDateTime.ToTimeUTC()
 	return firstDateTime.Before(secondDateTime)
 }
 
 // After localDatetime is after
 func (dt LocalDatetime) After(targetDateTime LocalDatetime) bool {
-	firstDateTime := dt.ToTimeUtc()
-	secondDateTime := targetDateTime.ToTimeUtc()
+	firstDateTime := dt.ToTimeUTC()
+	secondDateTime := targetDateTime.ToTimeUTC()
 
 	return firstDateTime.After(secondDateTime)
 }
@@ -471,7 +543,7 @@ func (dt LocalDatetime) AfterEqual(targetDateTime LocalDatetime) bool {
 
 // Equal localDateme is equal
 func (dt LocalDatetime) Equal(targetDateTime LocalDatetime) bool {
-	return dt.ToTimeUtc().Equal(targetDateTime.ToTimeUtc())
+	return dt.ToTimeUTC().Equal(targetDateTime.ToTimeUTC())
 }
 
 // Between localDateime is between
@@ -481,7 +553,7 @@ func (dt LocalDatetime) Between(start, end LocalDatetime) bool {
 
 // Sub dtm - target 290年以上の期間は扱えません
 func (dt LocalDatetime) Sub(target LocalDatetime) (time.Duration, bool) {
-	duration := dt.ToTimeUtc().Sub(target.ToTimeUtc())
+	duration := dt.ToTimeUTC().Sub(target.ToTimeUTC())
 	if duration == MaxDuration || duration == MinDuration {
 		return duration, false
 	}
@@ -536,8 +608,8 @@ func NowLocalDatetimeJst() LocalDatetime {
 	return ApplyLocalDatetimeTm(NowJST())
 }
 
-// NowLocalDatetimeUtc now localDateime utc
-func NowLocalDatetimeUtc() LocalDatetime {
+// NowLocalDatetimeUTC now localDateime utc
+func NowLocalDatetimeUTC() LocalDatetime {
 	return ApplyLocalDatetimeTm(NowUTC())
 }
 
@@ -594,7 +666,7 @@ func (ndt NullLocalDatetime) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON for json default format: yyyy-MM-dd hh:mm:ss
 func (ndt *NullLocalDatetime) UnmarshalJSON(data []byte) error {
 	if ndt == nil {
-		return errors.New("failed to UnmarshalJSON NullLocalDatetime. receiver is nil")
+		return fmt.Errorf("failed to UnmarshalJSON NullLocalDatetime. receiver is nil")
 	}
 	if len(data) == 0 || strings.EqualFold(string(data), "null") {
 		ndt.LocalDatetime, ndt.Valid = LocalDatetime{}, false
