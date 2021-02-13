@@ -1,7 +1,6 @@
 package apierr
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -37,7 +36,7 @@ func NewBadRequest(errCode ErrCode, err error) *BadRequest {
 
 // NewBadRequestM BadRequest を msg から生成
 func NewBadRequestM(errCode ErrCode, msg string) *BadRequest {
-	return NewBadRequest(errCode, errors.New(msg))
+	return NewBadRequest(errCode, fmt.Errorf(msg))
 }
 
 // NewBadRequestF BadRequest を formatted err から生成
@@ -77,7 +76,7 @@ func NewUnauthorized(errCode ErrCode, err error) *Unauthorized {
 
 // NewUnauthorizedM Unauthorized を msg から生成
 func NewUnauthorizedM(errCode ErrCode, msg string) *BadRequest {
-	return NewBadRequest(errCode, errors.New(msg))
+	return NewBadRequest(errCode, fmt.Errorf(msg))
 }
 
 // NewUnauthorizedF Unauthorized を formatted err から生成
@@ -117,7 +116,7 @@ func NewForbidden(errCode ErrCode, err error) *Forbidden {
 
 // NewForbiddenM Forbidden を msg から生成
 func NewForbiddenM(errCode ErrCode, msg string) *Forbidden {
-	return NewForbidden(errCode, errors.New(msg))
+	return NewForbidden(errCode, fmt.Errorf(msg))
 }
 
 // NewForbiddenF Forbidden を formatted err から生成
@@ -157,7 +156,7 @@ func NewNotFound(errCode ErrCode, err error) *NotFound {
 
 // NewNotFoundM NotFound を msg から生成
 func NewNotFoundM(errCode ErrCode, msg string) *NotFound {
-	return NewNotFound(errCode, errors.New(msg))
+	return NewNotFound(errCode, fmt.Errorf(msg))
 }
 
 // NewNotFoundF NotFound を formatted err から生成
