@@ -251,7 +251,7 @@ type NullLocalDate struct {
 // go-sql-driver で使用するためダックタイピング
 func (nd NullLocalDate) Value() (driver.Value, error) {
 	if nd.Valid {
-		return nd.LocalDate.Value(), nil
+		return nd.LocalDate.Value()
 	}
 	return nil, nil
 }
