@@ -48,7 +48,7 @@ func (d *LocalDate) Scan(value interface{}) error {
 	}
 	matchVals, matchErr := groupSubMatch(val, LocalDateRegex)
 	if matchErr != nil {
-		return fmt.Errorf("failed to match LocalDate: %v", matchErr.Error())
+		return fmt.Errorf("failed to match LocalDate: %s", matchErr.Error())
 	}
 	if len(matchVals) < 4 {
 		return fmt.Errorf("failed to match LocalDate in the group len: %d", len(matchVals))
@@ -57,7 +57,7 @@ func (d *LocalDate) Scan(value interface{}) error {
 	month, mErr := strconv.Atoi(matchVals[2])
 	day, dErr := strconv.Atoi(matchVals[3])
 	if yErr != nil || mErr != nil || dErr != nil {
-		return fmt.Errorf("failed to convert LocalDate groups [ %s, %s, %s ]", matchVals[1], matchVals[2], matchVals[3])
+		return fmt.Errorf("failed to convert LocalDate matchVals [ %s, %s, %s ]", matchVals[1], matchVals[2], matchVals[3])
 	}
 	*d = LocalDate{Year: uint(year), Month: uint(month), Day: uint(day)}
 	return nil
@@ -119,7 +119,7 @@ func (d LocalDate) SplitString() (yearStr, monthStr, dayStr string) {
 	return year, month, day
 }
 
-// ToTime Location に応じた時間を返却
+// ToTime Location に応じた日付を返却
 func (d LocalDate) ToTime(loc *time.Location) time.Time {
 	return time.Date(int(d.Year), time.Month(int(d.Month)), int(d.Day), 0, 0, 0, 0, loc)
 }
@@ -149,7 +149,7 @@ func (d LocalDate) IsEqual(targetDate LocalDate) bool {
 	return d.ToTimeUTC().Equal(targetDate.ToTimeUTC())
 }
 
-// IsBetween LocalDate が引数よりも進んだ日付のとき true を返却
+// IsBetween LocalDate が引数の範囲内にあるとき true を返却
 func (d LocalDate) IsBetween(start, end LocalDate) bool {
 	return (d.IsAfter(start) || d.IsEqual(start)) && (d.IsEqual(end) || d.IsBefore(end))
 }
@@ -197,18 +197,18 @@ func (d *LocalDate) UnmarshalJSON(data []byte) error {
 	}
 	var str string
 	if err := json.Unmarshal(data, &str); err != nil {
-		return fmt.Errorf("failed to UnmarshalJSON LocalDate: %v", err)
+		return fmt.Errorf("failed to UnmarshalJSON LocalDate: %s", err.Error())
 	}
 	timeUTC, err := time.ParseInLocation(DateHyphen.String(), str, UTC.Location())
 	if err != nil {
-		return fmt.Errorf("failed to parse LocalDate: %v", err)
+		return fmt.Errorf("failed to parse LocalDate: %s", err.Error())
 	}
-	*d = applyLocalDateByTime(timeUTC)
+	*d = applyLocalDate(timeUTC)
 	return nil
 }
 
-// applyLocalDateByTime Time 型から LocalDate を生成
-func applyLocalDateByTime(t time.Time) LocalDate {
+// applyLocalDate Time 型から LocalDate を生成
+func applyLocalDate(t time.Time) LocalDate {
 	return LocalDate{
 		Year:  uint(t.Year()),
 		Month: uint(t.Month()),
@@ -254,7 +254,7 @@ func (nd *NullLocalDate) Scan(value interface{}) error {
 	err := nd.LocalDate.Scan(value)
 	if err != nil {
 		nd.Valid = false
-		return fmt.Errorf("failed to Scan NullLocalDate: %v", err)
+		return fmt.Errorf("failed to Scan NullLocalDate: %s", err.Error())
 	}
 	nd.Valid = true
 	return nil
