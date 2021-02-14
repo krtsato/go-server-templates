@@ -10,28 +10,7 @@ import (
 	"time"
 )
 
-// LocalDate const
-const (
-	LocalDateRegex                   = "^(\\d{4})-(\\d{1,2})-(\\d{1,2})"
-	LocalDateTimeRegex               = "^(\\d{4})-(\\d{1,2})-(\\d{1,2})\\ (\\d{1,2}):(\\d{1,2}):(\\d{1,2})"
-	MaxYear            uint          = 999999999 // mysqlの最大値とは異なるため注意
-	MinYear            uint          = 0
-	MaxMonthOfYear     uint          = 12
-	MinMonthOfYear     uint          = 1
-	MaxDayOfMonth      uint          = 31
-	MinDayOfMonth      uint          = 1
-	MaxHourOfDay       uint          = 23
-	MinHourOfDay       uint          = 1
-	MaxMinuteOfHour    uint          = 59
-	MinMinuteOfHour    uint          = 0
-	MaxSecOfMinute     uint          = 59
-	MinSecOfMinute     uint          = 0
-	MinDuration        time.Duration = -1 << 63
-	MaxDuration        time.Duration = 1<<63 - 1
-	FirstUnixInAD      int64         = -62135596800
-)
-
-// LocalDate DB 接続時の timezone 設定による変換を回避
+// LocalDate DB 接続時の timezone 設定による変換を回避するため使用
 // Go の time 型は timezone 情報を持っている
 type LocalDate struct {
 	Year  uint
@@ -87,13 +66,13 @@ func (d *LocalDate) Scan(value interface{}) error {
 // Valid 有効期間内の LocalDate を返却
 func (d LocalDate) Valid() (LocalDate, error) {
 	if d.Year < MinYear || MaxYear < d.Year {
-		return LocalDate{}, fmt.Errorf("%d is out of range", d.Year)
+		return LocalDate{}, fmt.Errorf("%d is out of LocalDate year range", d.Year)
 	}
 	if d.Month < MinMonthOfYear || MaxMonthOfYear < d.Month {
-		return LocalDate{}, fmt.Errorf("%d is out of range", d.Month)
+		return LocalDate{}, fmt.Errorf("%d is out of LocalDate month range", d.Month)
 	}
 	if d.Day < MinDayOfMonth || MaxDayOfMonth < d.Day {
-		return LocalDate{}, fmt.Errorf("%d is out of range", d.Day)
+		return LocalDate{}, fmt.Errorf("%d is out of LocalDate day range", d.Day)
 	}
 	return d, nil
 }
@@ -224,8 +203,17 @@ func (d *LocalDate) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("failed to parse LocalDate: %v", err)
 	}
-	*d = ApplyLocalDateByTime(timeUTC)
+	*d = applyLocalDateByTime(timeUTC)
 	return nil
+}
+
+// applyLocalDateByTime Time 型から LocalDate を生成
+func applyLocalDateByTime(t time.Time) LocalDate {
+	return LocalDate{
+		Year:  uint(t.Year()),
+		Month: uint(t.Month()),
+		Day:   uint(t.Day()),
+	}
 }
 
 // NewLocalDate Year, month, Day から UTC 時間の LocalDate を生成
