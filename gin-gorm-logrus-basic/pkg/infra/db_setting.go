@@ -83,7 +83,7 @@ func InitDBByDataSource(ds Datasource) (*DBManager, error) {
 func OpenDB(d Datasource) (*DBManager, error) {
 	// Reader
 	r := d.Reader
-	rDSN := r.User + ":" + r.Pass + "@tcp(" + r.Host + ":" + r.Port + ")/" + gglbDB + "?" + r.URLQuery
+	rDSN := r.User + ":" + r.Pass + "@tcp(" + r.Host + ":" + r.Port + ")/" + GglbDB + "?" + r.URLQuery
 	rConn, rOpenErr := gorm.Open(mysql.Open(rDSN), &gorm.Config{})
 	if rOpenErr != nil {
 		return nil, rOpenErr
@@ -101,7 +101,7 @@ func OpenDB(d Datasource) (*DBManager, error) {
 
 	// Writer
 	w := d.Writer
-	wDSN := w.User + ":" + w.Pass + "@tcp(" + w.Host + ":" + w.Port + ")/" + gglbDB + "?" + w.URLQuery
+	wDSN := w.User + ":" + w.Pass + "@tcp(" + w.Host + ":" + w.Port + ")/" + GglbDB + "?" + w.URLQuery
 	wConn, wOpenErr := gorm.Open(mysql.Open(wDSN), &gorm.Config{})
 	if wOpenErr != nil {
 		defer closeSQL(rDB)
