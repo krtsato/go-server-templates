@@ -60,9 +60,9 @@ func ToUTC(t time.Time) time.Time {
 }
 
 // ParseInJST DateFormat 形式で文字列を JST 時間に変換
-func ParseInJST(fmt DateFormat, date string) (time.Time, error) {
+func ParseInJST(fmt DateFormat, dateStr string) (time.Time, error) {
 	loc := AsiaTokyo.Location()
-	return time.ParseInLocation(string(fmt), date, loc)
+	return time.ParseInLocation(string(fmt), dateStr, loc)
 }
 
 // IsFistDayOfMonth 月初日を判定

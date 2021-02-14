@@ -203,12 +203,12 @@ func (d *LocalDate) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("failed to parse LocalDate: %s", err.Error())
 	}
-	*d = applyLocalDate(timeUTC)
+	*d = ApplyLocalDate(timeUTC)
 	return nil
 }
 
-// applyLocalDate Time 型から LocalDate を生成
-func applyLocalDate(t time.Time) LocalDate {
+// ApplyLocalDate Time から LocalDate を生成
+func ApplyLocalDate(t time.Time) LocalDate {
 	return LocalDate{
 		Year:  uint(t.Year()),
 		Month: uint(t.Month()),
@@ -216,7 +216,7 @@ func applyLocalDate(t time.Time) LocalDate {
 	}
 }
 
-// NewLocalDate Year, month, Day から UTC 時間の LocalDate を生成
+// NewLocalDate Year, Month, Day から UTC 時間の LocalDate を生成
 func NewLocalDate(year, month, day int) LocalDate {
 	timeUTC := time.Date(year, time.Month(month), day, 0, 0, 0, 0, UTC.Location())
 	if timeUTC.Unix() < FirstUnixInAD {

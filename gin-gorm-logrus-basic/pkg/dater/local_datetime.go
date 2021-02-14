@@ -30,6 +30,10 @@ const (
 	FirstUnixInAD      int64         = -62135596800
 )
 
+// ------------------------------------------------------------
+// LocalDatetime
+// ------------------------------------------------------------
+
 // LocalDatetime local datetime
 type LocalDatetime struct {
 	LocalDate LocalDate
@@ -116,7 +120,7 @@ func (d *LocalDatetime) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("failed to parse LocalDatetime: %s", err.Error())
 	}
-	*d = applyLocalDatetime(timeUTC)
+	*d = ApplyLocalDatetime(timeUTC)
 	return nil
 }
 
@@ -149,22 +153,22 @@ func (d LocalDatetime) IsAfter(targetDateTime LocalDatetime) bool {
 
 // IsBeforeEqual LocalDatetime が引数と同日または遅れた日付のとき true を返却
 func (d LocalDatetime) IsBeforeEqual(targetDateTime LocalDatetime) bool {
-	return d.IsBefore(targetDateTime) || d.Equal(targetDateTime)
+	return d.IsBefore(targetDateTime) || d.IsEqual(targetDateTime)
 }
 
 // IsAfterEqual LocalDatetime が引数と同日または進んだ日付のとき true を返却
 func (d LocalDatetime) IsAfterEqual(targetDateTime LocalDatetime) bool {
-	return d.IsAfter(targetDateTime) || d.Equal(targetDateTime)
+	return d.IsAfter(targetDateTime) || d.IsEqual(targetDateTime)
 }
 
 // IsEqual LocalDatetime が引数と同じ日付のとき true を返却
-func (d LocalDatetime) Equal(targetDateTime LocalDatetime) bool {
+func (d LocalDatetime) IsEqual(targetDateTime LocalDatetime) bool {
 	return d.ToTimeUTC().Equal(targetDateTime.ToTimeUTC())
 }
 
 // IsBetween LocalDatetime が引数の範囲内にあるとき true を返却
 func (d LocalDatetime) IsBetween(start, end LocalDatetime) bool {
-	return (d.IsAfter(start) || d.Equal(start)) && (d.Equal(end) || d.IsBefore(end))
+	return (d.IsAfter(start) || d.IsEqual(start)) && (d.IsEqual(end) || d.IsBefore(end))
 }
 
 // Sub LocalDatetime から引数を引いた期間を返却
@@ -177,71 +181,65 @@ func (d LocalDatetime) Sub(target LocalDatetime) (time.Duration, bool) {
 	return duration, true
 }
 
-// Add localDatetime add duration
+// Add LocalDatetime を引数の Duration だけ進める
 func (d LocalDatetime) Add(duration time.Duration) LocalDatetime {
 	loc := UTC.Location()
 	addedTime := d.ToTime(loc).Add(duration)
-	return applyLocalDatetime(addedTime)
+	return ApplyLocalDatetime(addedTime)
 }
 
-// AddDate localDatetime add date
+// AddDate LocalDatetime を引数の Year, Month, Day だけ進める
 func (d LocalDatetime) AddDate(year, month, day int) LocalDatetime {
 	loc := UTC.Location()
 	addedTime := d.ToTime(loc).AddDate(year, month, day)
-	return applyLocalDatetime(addedTime)
+	return ApplyLocalDatetime(addedTime)
 }
 
-// IsZero localDatetime is zero?
+// IsZero LocalDatetime がゼロ値のとき true を返却
 func (d LocalDatetime) IsZero() bool {
 	return d.LocalDate.IsZero() && d.LocalTime.IsZero()
 }
 
-// IsNotZero localDatetime is not zero?
-func (d LocalDatetime) IsNotZero() bool {
-	return !d.IsZero()
-}
-
-// NewLocalDatetime new localDatetime.
-// day: 40のように最大値を超えた数値が渡された場合, カレンダー計算を行い初期化します.
-// カレンダー計算を行った結果、紀元前になる場合,空を返却します
-func NewLocalDatetime(year, month, day uint, hour, min, sec int) LocalDatetime {
-	tm := time.Date(int(year), time.Month(month), int(day), hour, min, sec, 0, UTC.Location())
-	if tm.Unix() < FirstUnixInAD {
+// NewLocalDatetime Year, Month, Day, Hour, Minute, Second から LocalDatetime を生成
+// 引数の日時が最大値を超過する場合 time.Date() によって標準化
+// 引数の日時が紀元前になる場合 LocalDatetime のゼロ値を返却
+func NewLocalDatetime(year, month, day uint, hour, min, sec int, loc *time.Location) LocalDatetime {
+	t := time.Date(int(year), time.Month(month), int(day), hour, min, sec, 0, loc)
+	if t.Unix() < FirstUnixInAD {
 		return LocalDatetime{}
 	}
-	localTime := LocalTime{Hour: uint(tm.Hour()), Minute: uint(tm.Minute()), Second: uint(tm.Second())}
-	localDate := LocalDate{Year: uint(tm.Year()), Month: uint(tm.Month()), Day: uint(tm.Day())}
+	localDate := LocalDate{Year: uint(t.Year()), Month: uint(t.Month()), Day: uint(t.Day())}
+	localTime := LocalTime{Hour: uint(t.Hour()), Minute: uint(t.Minute()), Second: uint(t.Second())}
 	return LocalDatetime{LocalDate: localDate, LocalTime: localTime}
 }
 
-// applyLocalDatetime timeからLocalDateTimeへ変換します.(tzは無視します)
-func applyLocalDatetime(tm time.Time) LocalDatetime {
-	// 発生エラーは日付としての正当性によるエラーのためtimeからの変換では不要
-	return NewLocalDatetime(uint(tm.Year()), uint(tm.Month()), uint(tm.Day()), tm.Hour(), tm.Minute(), tm.Second())
+// NowLocalDatetimeJST JST の現在時刻から LocalDatetime を生成
+func NowLocalDatetimeJST() LocalDatetime {
+	return ApplyLocalDatetime(NowJST())
 }
 
-// NowLocalDatetimeJst now localDatetime jst
-func NowLocalDatetimeJst() LocalDatetime {
-	return applyLocalDatetime(NowJST())
-}
-
-// NowLocalDatetimeUTC now localDateime utc
+// NowLocalDatetimeUTC UTC の現在時刻から LocalDatetime を生成
 func NowLocalDatetimeUTC() LocalDatetime {
-	return applyLocalDatetime(NowUTC())
+	return ApplyLocalDatetime(NowUTC())
 }
 
-// ParseLocalDatetime parse localDatetime by string
-func ParseLocalDatetime(fmt DateFormat, t string) (LocalDatetime, error) {
-	loc := UTC.Location() //localdatetimeのため、このtimezoneは使用しない
-
-	tm, err := time.ParseInLocation(fmt.String(), t, loc)
+// ParseLocalDatetime DateFormat 形式 Location 時間に文字列を変換
+func ParseLocalDatetime(fmt DateFormat, dateStr string, loc *time.Location) (LocalDatetime, error) {
+	t, err := time.ParseInLocation(fmt.String(), dateStr, loc)
 	if err != nil {
 		return LocalDatetime{}, err
 	}
-	return applyLocalDatetime(tm), nil
+	return ApplyLocalDatetime(t), nil
 }
 
-// ========= nullable LocalDatetimeを表現します.  =========
+// ApplyLocalDatetime Time から LocalDatetime を生成
+func ApplyLocalDatetime(tm time.Time) LocalDatetime {
+	return NewLocalDatetime(uint(tm.Year()), uint(tm.Month()), uint(tm.Day()), tm.Hour(), tm.Minute(), tm.Second(), tm.Location())
+}
+
+// ------------------------------------------------------------
+// NullLocalDatetime
+// ------------------------------------------------------------
 
 // NullLocalDatetime nullable localDatetime
 type NullLocalDatetime struct {
@@ -249,75 +247,79 @@ type NullLocalDatetime struct {
 	Valid         bool
 }
 
-// Value for go-sql-driver to value
-func (ndt NullLocalDatetime) Value() (driver.Value, error) {
-	if ndt.Valid {
-		return ndt.LocalDatetime.Value()
+// Value LocalDatetime に応じた日付 YYYY-MM-DD HH:MM:SS を返却
+// go-sql-driver で使用するためダックタイピング
+func (nd NullLocalDatetime) Value() (driver.Value, error) {
+	if nd.Valid {
+		return nd.LocalDatetime.Value()
 	}
 	return nil, nil
 }
 
-// Scan for go-sql-driver
-func (ndt *NullLocalDatetime) Scan(value interface{}) error {
-	if ndt == nil || value == nil {
-		ndt.LocalDatetime, ndt.Valid = LocalDatetime{}, false
+// Scan DB レコードをメモリ上にスキャン
+// go-sql-driver で使用するためダックタイピング
+func (nd *NullLocalDatetime) Scan(value interface{}) error {
+	if nd == nil || value == nil {
+		nd.LocalDatetime, nd.Valid = LocalDatetime{}, false
 		return nil
 	}
-	scanErr := ndt.LocalDatetime.Scan(value)
-	if scanErr != nil {
-		ndt.Valid = false
-	} else {
-		ndt.Valid = true
+	err := nd.LocalDatetime.Scan(value)
+	if err != nil {
+		nd.Valid = false
+		return err
 	}
-	return scanErr
+	nd.Valid = true
+	return nil
 }
 
-// MarshalJSON for json return format: yyyy-MM-dd hh:mm:ss
-func (ndt NullLocalDatetime) MarshalJSON() ([]byte, error) {
-	if ndt.Valid {
-		return ndt.LocalDatetime.MarshalJSON()
+// MarshalJSON JSON に YYYY-MM-DD HH:MM:SS を書き込む
+// encoding/json で使用するためダックタイピング
+func (nd NullLocalDatetime) MarshalJSON() ([]byte, error) {
+	if nd.Valid {
+		return nd.LocalDatetime.MarshalJSON()
 	}
 	return json.Marshal(nil)
 }
 
-// UnmarshalJSON for json default format: yyyy-MM-dd hh:mm:ss
-func (ndt *NullLocalDatetime) UnmarshalJSON(data []byte) error {
-	if ndt == nil {
-		return fmt.Errorf("failed to UnmarshalJSON NullLocalDatetime. receiver is nil")
+// UnmarshalJSON JSON の YYYY-MM-DD HH:MM:SS を UTC 時間として読み取る
+// encoding/json で使用するためダックタイピング
+func (nd *NullLocalDatetime) UnmarshalJSON(data []byte) error {
+	if nd == nil {
+		return fmt.Errorf("nil receiver of NullLocalDatetime is invalid")
 	}
 	if len(data) == 0 || strings.EqualFold(string(data), "null") {
-		ndt.LocalDatetime, ndt.Valid = LocalDatetime{}, false
+		nd.LocalDatetime, nd.Valid = LocalDatetime{}, false
 		return nil
 	}
-	if err := ndt.LocalDatetime.UnmarshalJSON(data); err != nil {
-		ndt.LocalDatetime, ndt.Valid = LocalDatetime{}, false
+	if err := nd.LocalDatetime.UnmarshalJSON(data); err != nil {
+		nd.LocalDatetime, nd.Valid = LocalDatetime{}, false
 		return err
 	}
-	ndt.Valid = true
+	nd.Valid = true
 	return nil
 }
 
-// NewNullLocalDatetime new LocalDatetime
+// NewNullLocalDatetime Year, Month, Day, Hour, Minutes, Second から UTC 時間の LocalDatetime を生成
 func NewNullLocalDatetime(year, month, day uint, hour, min, sec int) NullLocalDatetime {
-	dtm := NewLocalDatetime(year, month, day, hour, min, sec)
-	if dtm.IsZero() {
+	datetimeUTC := NewLocalDatetime(year, month, day, hour, min, sec, UTC.Location())
+	if datetimeUTC.IsZero() {
 		return NullLocalDatetime{Valid: false}
 	}
-	return NullLocalDatetime{LocalDatetime: dtm, Valid: true}
+	return NullLocalDatetime{LocalDatetime: datetimeUTC, Valid: true}
 }
 
-// ApplyNullLocalDatetimeT time to LocalDatetime
+// ApplyNullLocalDatetimeT Time から NullLocalDatetime を生成
 func ApplyNullLocalDatetimeT(t time.Time) NullLocalDatetime {
 	if t.IsZero() {
 		return NullLocalDatetime{Valid: false}
 	}
 	return NullLocalDatetime{
-		LocalDatetime: applyLocalDatetime(t),
+		LocalDatetime: ApplyLocalDatetime(t),
 		Valid:         true,
 	}
 }
 
-/// ApplyNullLocalDatetimeD localDate to LocalDatetime
+// ApplyNullLocalDatetimeD LocalDate から NullLocalDatetime を生成
 func ApplyNullLocalDatetimeD(d LocalDate) NullLocalDatetime {
 	dtm := d.LocalDatetime()
 	if dtm.IsZero() {
@@ -326,7 +328,7 @@ func ApplyNullLocalDatetimeD(d LocalDate) NullLocalDatetime {
 	return NullLocalDatetime{LocalDatetime: dtm, Valid: true}
 }
 
-// ApplyNullLocalDatetimeDt dtm to NullLocalDatetime
+// ApplyNullLocalDatetimeDt LocalDatetime から NullLocalDatetime を生成
 func ApplyNullLocalDatetimeDt(d LocalDatetime) NullLocalDatetime {
 	if d.IsZero() {
 		return NullLocalDatetime{Valid: false}
