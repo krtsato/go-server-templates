@@ -15,9 +15,9 @@ import (
 
 // Client S3 Client
 type Client interface {
-	Put(file *File) error
+	Put(object *Object) error
 	List(prefix string) ([]string, error)
-	Get(key string) (*File, error)
+	Get(key string) (*Object, error)
 	IsModified(key string, time time.Time) (bool, error)
 	Head(key string) (*s3.HeadObjectOutput, error)
 }
@@ -42,18 +42,18 @@ func NewS3Client(cfg *Config) (Client, error) {
 	return &s3ClientImpl{s3: s3.New(sess), bucket: cfg.BucketName}, nil
 }
 
-// Put File を S3 に配置
-func (s *s3ClientImpl) Put(file *File) error {
+// Put Object を S3 に配置
+func (s *s3ClientImpl) Put(object *Object) error {
 	_, err := s.s3.PutObject(&s3.PutObjectInput{
 		Bucket:      aws.String(s.bucket),
-		Key:         aws.String(file.Name),
-		Body:        bytes.NewReader(file.Body),
-		ContentType: aws.String(file.ContentType),
+		Key:         aws.String(object.Name),
+		Body:        bytes.NewReader(object.Body),
+		ContentType: aws.String(object.ContentType),
 	})
 	return err
 }
 
-// List S3 オブジェクトキーの一覧を取得
+// List Object Key の一覧を取得
 func (s *s3ClientImpl) List(prefix string) ([]string, error) {
 	req := &s3.ListObjectsV2Input{
 		Bucket: aws.String(s.bucket),
@@ -72,8 +72,8 @@ func (s *s3ClientImpl) List(prefix string) ([]string, error) {
 	return keys, nil
 }
 
-// Get S3 オブジェクトキーから S3 オブジェクトを取得
-func (s *s3ClientImpl) Get(key string) (*File, error) {
+// Get S3 Object Key から S3 オブジェクトを取得
+func (s *s3ClientImpl) Get(key string) (*Object, error) {
 	resp, getErr := s.s3.GetObject(&s3.GetObjectInput{
 		Bucket: aws.String(s.bucket),
 		Key:    aws.String(key),
@@ -86,7 +86,7 @@ func (s *s3ClientImpl) Get(key string) (*File, error) {
 	if readErr != nil {
 		return nil, readErr
 	}
-	return &File{
+	return &Object{
 		Name:         key,
 		Body:         body,
 		ContentType:  *resp.ContentType,
@@ -94,7 +94,7 @@ func (s *s3ClientImpl) Get(key string) (*File, error) {
 	}, nil
 }
 
-// IsModified S3 オブジェクトが変更されていれば true を返却
+// IsModified S3 Object が変更されていれば true を返却
 func (s *s3ClientImpl) IsModified(key string, time time.Time) (bool, error) {
 	headRes, err := s.Head(key)
 	if err != nil {
@@ -103,7 +103,7 @@ func (s *s3ClientImpl) IsModified(key string, time time.Time) (bool, error) {
 	return headRes.LastModified.After(time), nil
 }
 
-// Head S3 オブジェクトのメタデータを取得
+// Head S3 Object のメタデータを取得
 func (s *s3ClientImpl) Head(key string) (*s3.HeadObjectOutput, error) {
 	resp, err := s.s3.HeadObject(&s3.HeadObjectInput{
 		Bucket: aws.String(s.bucket),
