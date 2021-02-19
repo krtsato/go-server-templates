@@ -3,6 +3,7 @@ module github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic
 go 1.15
 
 require (
+	github.com/aws/aws-sdk-go v1.37.14
 	github.com/gin-gonic/gin v1.6.3
 	github.com/google/wire v0.4.0
 	github.com/imdario/mergo v0.3.11
