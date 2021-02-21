@@ -2,6 +2,7 @@ package gglbdb
 
 import (
 	"database/sql"
+
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/pkg/dater"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/pkg/infra"
 )

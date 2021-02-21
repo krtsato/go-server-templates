@@ -2,9 +2,11 @@ package gglbdb
 
 import (
 	"context"
+
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/pkg/infra"
 )
 
+// AccountClient Account Client interface
 type AccountClient interface {
 	FindByAccountID(ctx context.Context, accountID int) (*Account, error)
 	FindByParam(ctx context.Context, param *FindAccountParam, pagination *Pagination) (Accounts, *Page, error)
@@ -21,7 +23,7 @@ func NewAccountClientImpl(dbm *infra.DBManager) AccountClient {
 	return &accountClientImpl{dbm: dbm}
 }
 
-// 初期 DI 以外のタイミングで DB manager を渡して client を生成
+// DefaultNetworkClientImpl 初期 DI 以外のタイミングで DB manager を渡して client を生成
 func DefaultAccountClientImpl() AccountClient {
 	return &accountClientImpl{dbm: infra.GetDBManager()}
 }

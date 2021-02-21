@@ -34,6 +34,6 @@ func NewPagination(page, limit int) *Pagination {
 
 // Next next pagination
 func (p *Pagination) Next() {
-	p.Page += 1
+	p.Page++
 	p.Offset += p.Limit
 }
