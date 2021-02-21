@@ -1,23 +1,24 @@
 package gglbdb
 
 import (
+	"database/sql"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/pkg/dater"
 	"github.com/krtsato/go-rest-templates/gin-gorm-logrus-basic/pkg/infra"
 )
 
 // Account accounts table struct
 type Account struct {
-	ID        int `gorm:"primary_key;auto_increment:false"`
+	ID        int `gorm:"primary_key;auto_increment:true"`
 	Name      string
-	Note      string
+	Note      sql.NullString
 	ThxCount  int
 	CreatedAt dater.LocalDatetime // gorm マネージドのため値セット不要
 	UpdatedAt dater.LocalDatetime // gorm マネージドのため値セット不要
 	DeletedAt dater.LocalDatetime // gorm マネージドのため値セット不要
 }
 
-// Accounts Account Slice
-type Accounts []Account
+// Accounts Account スライス
+type Accounts []*Account
 
 // TableAccount テーブル名
 const TableAccount = "accounts"
@@ -29,6 +30,6 @@ func (Account) TableName() string {
 }
 
 // IsEmpty empty check
-func (a Account) IsEmpty() bool {
-	return a == Account{}
+func (a *Account) IsEmpty() bool {
+	return *a == Account{}
 }

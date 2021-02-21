@@ -6,4 +6,4 @@ insert into accounts (id, name, note, thx_count, created_at, updated_at, deleted
 insert into accounts (id, name, note, thx_count, created_at, updated_at, deleted_at) values (3, '田井中律', '夕空ア・ラ・カルト', 3, '2002-08-21 00:00:02', '2012-08-21 00:00:02', null);
 insert into accounts (id, name, note, thx_count, created_at, updated_at, deleted_at) values (4, '琴吹紬', 'Diaryはフォルテシモ', 2, '2003-07-02 00:00:03', '2013-07-02 00:00:03', null);
 insert into accounts (id, name, note, thx_count, created_at, updated_at, deleted_at) values (5, '中野梓', 'じゃじゃ馬Way To Go', 1, '2004-11-11 00:00:04', '2014-11-11 00:00:04', null);
-insert into accounts (id, name, note, thx_count, created_at, updated_at, deleted_at) values (6, '映画けいおん！', 'Yes, We are Singing NOW!', 0, '2005-12-03 00:00:05', '2015-12-03 00:00:05', '2015-12-03 00:00:15');
+insert into accounts (id, name, note, thx_count, created_at, updated_at, deleted_at) values (6, '映画けいおん！', null, 0, '2005-12-03 00:00:05', '2015-12-03 00:00:05', '2015-12-03 00:00:15');
