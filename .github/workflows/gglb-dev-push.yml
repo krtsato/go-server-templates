@@ -33,7 +33,7 @@ jobs:
           restore-keys: ${{ runner.os }}-go-
 
   lint:
-    name: Make CI Lint
+    name: Use Lint Action
     needs: setup
     runs-on: ubuntu-latest
     steps:
