@@ -23,7 +23,7 @@ func NewAccountClientImpl(dbm *infra.DBManager) AccountClient {
 	return &accountClientImpl{dbm: dbm}
 }
 
-// DefaultNetworkClientImpl 初期 DI 以外のタイミングで DB manager を渡して client を生成
+// DefaultAccountClientImpl 初期 DI 以外のタイミングで DB manager を渡して client を生成
 func DefaultAccountClientImpl() AccountClient {
 	return &accountClientImpl{dbm: infra.GetDBManager()}
 }

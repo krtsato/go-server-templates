@@ -13,8 +13,8 @@ func InitializeGinApp(webCfg config.Web /*, hlxEnv hlx.AppEnv*/) (*webapi.GinApp
 	wire.Build(
 		// hlx.InitDB,
 		// gglbdb.NewAccountClientImpl,
-		// service.InjectNetworkImpl,
-		//handler.InjectNetwork,
+		// service.InjectAccountImpl,
+		//handler.InjectAccount,
 		controller.InjectSystem,
 		webapi.NewGinApp,
 	)
