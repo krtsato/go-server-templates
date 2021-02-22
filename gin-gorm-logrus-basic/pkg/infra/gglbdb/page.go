@@ -10,7 +10,7 @@ type Page struct {
 }
 
 // NewPage Pagination, TotalRecord から Page を生成
-func NewPage(pagination Pagination, totalRecords int64) *Page {
+func NewPage(pagination *Pagination, totalRecords int64) *Page {
 	var totalPage int64 = 1
 	if pagination.Limit > 0 {
 		totalPage = decimal.NewFromInt(totalRecords).Div(decimal.NewFromInt(int64(pagination.Limit))).Ceil().IntPart()

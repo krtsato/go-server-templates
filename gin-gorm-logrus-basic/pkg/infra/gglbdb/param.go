@@ -19,7 +19,10 @@ type UpdateAccountParam struct {
 }
 
 // NewWithUpdateParam 更新用パラメタから null skip する Account を生成
-func (a *Account) NewWithUpdateParam(param UpdateAccountParam) *Account {
+func (a *Account) NewWithUpdateParam(param *UpdateAccountParam) *Account {
+	if a == nil {
+		return &Account{}
+	}
 	if param.Note.Valid {
 		a.Note = param.Note
 	}
