@@ -3,8 +3,8 @@ package dater
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"github.com/pkg/errors"
 	"strconv"
 	"strings"
 	"time"

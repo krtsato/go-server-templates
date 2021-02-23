@@ -1,7 +1,7 @@
 package infra
 
 import (
-	"github.com/pkg/errors"
+	"errors"
 	"reflect"
 )
 
