@@ -4,6 +4,7 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"
+	"github.com/pkg/errors"
 	"strconv"
 	"strings"
 	"time"
@@ -52,10 +53,10 @@ func (d LocalDatetime) Value() (driver.Value, error) {
 // go-sql-driver で使用するためダックタイピング
 func (d *LocalDatetime) Scan(value interface{}) error {
 	if d == nil {
-		return fmt.Errorf("nil receiver of LocalDatetime is invalid")
+		return errors.New("nil receiver of LocalDatetime is invalid")
 	}
 	if value == nil {
-		return fmt.Errorf("failed to Scan the empty interface argument")
+		return errors.New("failed to Scan the empty interface argument")
 	}
 	convVal, convErr := driver.String.ConvertValue(value)
 	if convErr != nil {
@@ -63,7 +64,7 @@ func (d *LocalDatetime) Scan(value interface{}) error {
 	}
 	val, ok := convVal.(string)
 	if !ok {
-		return fmt.Errorf("failed to assert LocalDatetime type")
+		return errors.New("failed to assert LocalDatetime type")
 	}
 	matchVals, matchErr := groupSubMatch(val, LocalDateTimeRegex)
 	if matchErr != nil {
@@ -107,10 +108,10 @@ func (d LocalDatetime) MarshalJSON() ([]byte, error) {
 // encoding/json で使用するためダックタイピング
 func (d *LocalDatetime) UnmarshalJSON(data []byte) error {
 	if d == nil {
-		return fmt.Errorf("nil receiver of LocalDatetime is invalid")
+		return errors.New("nil receiver of LocalDatetime is invalid")
 	}
 	if len(data) == 0 {
-		return fmt.Errorf("failed to UnmarshalJSON LocalDatetime because of zero length data")
+		return errors.New("failed to UnmarshalJSON LocalDatetime because of zero length data")
 	}
 	var str string
 	if err := json.Unmarshal(data, &str); err != nil {
@@ -285,7 +286,7 @@ func (nd NullLocalDatetime) MarshalJSON() ([]byte, error) {
 // encoding/json で使用するためダックタイピング
 func (nd *NullLocalDatetime) UnmarshalJSON(data []byte) error {
 	if nd == nil {
-		return fmt.Errorf("nil receiver of NullLocalDatetime is invalid")
+		return errors.New("nil receiver of NullLocalDatetime is invalid")
 	}
 	if len(data) == 0 || strings.EqualFold(string(data), "null") {
 		nd.LocalDatetime, nd.Valid = LocalDatetime{}, false

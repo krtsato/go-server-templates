@@ -63,7 +63,7 @@ func InitDB(e DBEnv) (*DBManager, error) {
 			return InitDBByDataSource(d.datasource)
 		}
 	}
-	return nil, fmt.Errorf("unknown DBEnv: %s" + e.String())
+	return nil, fmt.Errorf("unknown DBEnv: %s", e.String())
 }
 
 // InitDBByDataSource カスタム Datasource で singleton DB インスタンスを生成

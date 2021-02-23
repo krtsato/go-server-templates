@@ -1,7 +1,7 @@
 package infra
 
 import (
-	"fmt"
+	"github.com/pkg/errors"
 	"reflect"
 )
 
@@ -74,10 +74,10 @@ func (c *queryClientImpl) FindByVariadicParams(query string, result interface{},
 // validateFindArgs 必要最低限のバリデーション
 func validateFindArgs(result interface{}, params interface{}) error {
 	if reflect.TypeOf(result).Kind() != reflect.Ptr {
-		return fmt.Errorf("result should be pointer")
+		return errors.New("result should be pointer")
 	}
 	if reflect.TypeOf(params).Kind() == reflect.Ptr {
-		return fmt.Errorf("params should not be pointer")
+		return errors.New("params should not be pointer")
 	}
 	return nil
 }

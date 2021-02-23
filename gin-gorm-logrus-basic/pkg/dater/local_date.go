@@ -3,6 +3,7 @@ package dater
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -33,10 +34,10 @@ func (d LocalDate) Value() (driver.Value, error) {
 // go-sql-driver で使用するためダックタイピング
 func (d *LocalDate) Scan(value interface{}) error {
 	if d == nil {
-		return fmt.Errorf("nil receiver of LocalDate is invalid")
+		return errors.New("nil receiver of LocalDate is invalid")
 	}
 	if value == nil {
-		return fmt.Errorf("failed to Scan the empty interface argument")
+		return errors.New("failed to Scan the empty interface argument")
 	}
 	convVal, convErr := driver.String.ConvertValue(value)
 	if convErr != nil {
@@ -44,7 +45,7 @@ func (d *LocalDate) Scan(value interface{}) error {
 	}
 	val, ok := convVal.(string)
 	if !ok {
-		return fmt.Errorf("failed to assert LocalDate type")
+		return errors.New("failed to assert LocalDate type")
 	}
 	matchVals, matchErr := groupSubMatch(val, LocalDateRegex)
 	if matchErr != nil {
@@ -190,10 +191,10 @@ func (d LocalDate) MarshalJSON() ([]byte, error) {
 // encoding/json で使用するためダックタイピング
 func (d *LocalDate) UnmarshalJSON(data []byte) error {
 	if d == nil {
-		return fmt.Errorf("nil receiver of LocalDate is invalid")
+		return errors.New("nil receiver of LocalDate is invalid")
 	}
 	if len(data) == 0 {
-		return fmt.Errorf("failed to UnmarshalJSON LocalDate because of zero length data")
+		return errors.New("failed to UnmarshalJSON LocalDate because of zero length data")
 	}
 	var str string
 	if err := json.Unmarshal(data, &str); err != nil {
@@ -273,7 +274,7 @@ func (nd NullLocalDate) MarshalJSON() ([]byte, error) {
 // encoding/json で使用するためダックタイピング
 func (nd *NullLocalDate) UnmarshalJSON(data []byte) error {
 	if nd == nil {
-		return fmt.Errorf("nil receiver of NullLocalDate is invalid")
+		return errors.New("nil receiver of NullLocalDate is invalid")
 	}
 	if len(data) == 0 || strings.EqualFold(string(data), "null") {
 		nd.LocalDate, nd.Valid = LocalDate{}, false
