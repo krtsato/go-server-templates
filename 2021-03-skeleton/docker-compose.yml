@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: build/package/local/server.dockerfile
+      args:
+        APP_ENV: local
+        APP_NAME: skeleton
+    image: local-skeleton-server-img
+    container_name: local-skeleton-server-cont
+    depends_on:
+      - mysql
+    ports:
+      - 9999:9999
+    volumes:
+      - .:/var/app/skeleton-api
+      - ./pkg/infra/mysql/dump:/var/dump
+      - ./internal/logger/app/log:/var/log/skeleton
+
+  mysql:
+    build:
+      context: .
+      dockerfile: build/package/local/mysql.dockerfile
+    image: local-skeleton-mysql-img
+    container_name: local-skeleton-mysql-cont
+    cap_add:
+      - SYS_NICE # mbind: Operation not permitted 回避
+    ports:
+      - 9998:3306
+    volumes:
+      - mysql-vol:/var/lib/mysql
+      - ./pkg/infra/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./pkg/infra/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./pkg/infra/mysql/log:/var/log/mysql
+
+volumes:
+  mysql-vol:

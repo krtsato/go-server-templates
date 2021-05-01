@@ -1,3 +1,0 @@
-# echo-sqlboiler-zap-openapi
-
-coming later...

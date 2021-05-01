@@ -1,1 +1,1 @@
-# go-rest-templates
+# go-server-templates
