@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: build/package/local/server.dockerfile
+      args:
+        APP_ENV: local
+        APP_NAME: twtr
+    image: local-twtr-server
+    container_name: local-twtr-server
+    depends_on:
+      - mysql
+    ports:
+      - 9999:9999
+    volumes:
+      - .:/var/app/twtr
+      - ./pkg/infra/twtrdb/dump:/var/dump
+    networks:
+      - twtr-server-mysql
+
+  mysql:
+    build:
+      context: .
+      dockerfile: build/package/local/mysql.dockerfile
+    image: local-twtr-mysql
+    container_name: local-twtr-mysql
+    ports:
+      - 9998:3306
+    volumes:
+      - mysql-vol:/var/lib/mysql
+      - ./configs/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./pkg/infra/twtrdb/log:/var/log/mysql
+    networks:
+      - twtr-server-mysql
+
+networks:
+  twtr-server-mysql:
+
+volumes:
+  twtr-mysql:
