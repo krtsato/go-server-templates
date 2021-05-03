@@ -8,7 +8,7 @@
 
 - macOS 64 bit
 - Docker Engine v20.10~
-- Go v1.17~
+- Go v1.16~
 - MySQL v8.0~
 
 ### Package Overview
@@ -28,26 +28,30 @@
 
 ### Directories
 
-参考: [golang-standards/project-layout](https://github.com/golang-standards/project-layout)
+[golang-standards/project-layout](https://github.com/golang-standards/project-layout) に準拠した  
+ただし外部に閉じる必要がないため internal ディレクトリを除外した
 
-```text
+```shell
 .
-├── build/package
-│   ├── local                    # local Dockerfiles
-├── cmd/twtr                     # package main
-├── configs                      # config files
-├── deployments                  # deployment files
-├── docs                         # documents
-├── internal                    
-│   ├── infra/mysql              # infra layer
-│   │   ├── initdb.d             # ddl and dml files 
-│   │   ├── dump                 # dump outputs
-│   │   └── log                  # log outputs
-│   ├── service                  # service layer
-│   └── webapi                   # webapi layer
+├── build/package # dockerfiles
+├── cmd/twtr      # package main
+├── configs       # config files
+├── deployments   # deployment files
+├── docs          # documents
+├── pkg           # source code
+│   ├── appconf   # config scanner
+│   ├── appctx    # context helper
+│   ├── apperr    # errors inside app
+│   ├── conv      # converter between entity and dto
+│   ├── domain    # domain models
+│   ├── infra     # interface as infrastructure
+│   ├── logger    # access and app logger
+│   ├── usecase   # usecase interaction
+│   └── webapi    # interface as web access
 └── scripts
-    ├── make                     # sub Makefiles
-    └── mysql                    # mysql operation shells
+    ├── make      # sub makefiles
+    └── twtrdb    # db operation files
+
 ```
 
 ## Setup
@@ -82,5 +86,5 @@ configs/.golangci.yml にルールを記載する
 
 ```shell
 % make local-up-all
-% curl "http://localhost:9999/system/health-check"
+% curl "http://localhost:9999/system/health"
 ```
