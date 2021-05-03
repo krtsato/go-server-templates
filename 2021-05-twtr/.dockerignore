@@ -1,0 +1,12 @@
+.idea
+.vscode
+build
+configs/mysql.cnf
+deployments
+docs
+pkg/infra/mysql/log
+pkg/infra/mysql/dump
+scripts
+docker-compose.yml
+Makefile
+README.md

@@ -1,0 +1,14 @@
+# developer
+.DS_Store
+/.idea
+/.vscode
+
+# bin
+/server
+/tmp
+
+# db
+/pkg/infra/twtrdb/dump
+!/pkg/infra/twtrdb/dump/.keep
+/pkg/infra/twtrdb/log/
+!/pkg/infra/twtrdb/log/.keep
