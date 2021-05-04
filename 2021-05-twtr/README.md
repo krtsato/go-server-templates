@@ -40,7 +40,7 @@
 ├── deployments   # deployment files
 ├── docs          # documents
 ├── pkg
-│   ├── appauth   # jwt and hash helper   
+│   ├── appauth   # hash, jwt and session helper 
 │   ├── appconf   # config scanner
 │   ├── appctx    # context helper
 │   ├── apperr    # errors inside app
