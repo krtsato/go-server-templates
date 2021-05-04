@@ -13,18 +13,19 @@
 
 ### Package Overview
 
+- air
 - chi
-- ozzo-validation
-- firebase
-- wire
-- zap
-- sync
 - ent
-- tbls
 - gofakeit
 - gomock
 - go-sqlmock
+- jwt-go
 - k6
+- ozzo-validation
+- sync
+- tbls
+- wire
+- zap
 
 ### Directories
 
@@ -38,16 +39,16 @@
 ├── configs       # config files
 ├── deployments   # deployment files
 ├── docs          # documents
-├── pkg           # source code
+├── pkg
+│   ├── appauth   # jwt and hash helper   
 │   ├── appconf   # config scanner
 │   ├── appctx    # context helper
 │   ├── apperr    # errors inside app
 │   ├── conv      # converter between entity and dto
 │   ├── domain    # domain models
-│   ├── infra     # interface as infrastructure
+│   ├── interface # infra and webapi outside app
 │   ├── logger    # access and app logger
-│   ├── usecase   # usecase interaction
-│   └── webapi    # interface as web access
+│   └── usecase   # usecase interaction
 └── scripts
     ├── make      # sub makefiles
     └── twtrdb    # db operation files
