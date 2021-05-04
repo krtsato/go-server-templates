@@ -10,3 +10,5 @@ RUN apt-get update \
     && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && mysql_tzinfo_to_sql /usr/share/zoneinfo/Asia/Tokyo 'Asia/Tokyo' \
     && rm -rf /var/cache/apt/*
+
+EXPOSE 3306
