@@ -44,9 +44,9 @@
 │   ├── appconf   # config scanner
 │   ├── appctx    # context helper
 │   ├── apperr    # errors inside app
+│   ├── appintf   # infra and webapi outside app
 │   ├── conv      # converter between entity and dto
 │   ├── domain    # domain models
-│   ├── interface # infra and webapi outside app
 │   ├── logger    # access and app logger
 │   └── usecase   # usecase interaction
 └── scripts
@@ -56,6 +56,11 @@
 ```
 
 ## Setup
+
+### Rules
+
+[docs/git-rule.md](https://github.com/krtsato/go-server-templates/tree/main/2021-05-twtr/docs/git-rule.md)  
+[docs/code-rule.md](https://github.com/krtsato/go-server-templates/tree/main/2021-05-twtr/docs/code-rule.md)
 
 ### Quick Start
 
