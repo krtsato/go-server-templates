@@ -12,7 +12,7 @@ import (
 
 // Server is webapi server.
 type Server interface {
-	ListenAndServe(port string) error
+	ListenAndServe(ctx context.Context, port string) error
 	Shutdown(ctx context.Context)
 }
 
@@ -26,5 +26,11 @@ func (s server) listenAndServe(p string, h http.Handler) error {
 
 // shutdown is the common method for Server implements.
 // If you want to extend this process, overwrite your implement method.
-func (s server) shutdown(ctx context.Context) {
+func (s server) shutdown(ctx context.Context) error {
+	// TODO: close DB connection
+
+	srv := new(http.Server)
+	err := srv.Shutdown(ctx)
+
+	return err
 }
