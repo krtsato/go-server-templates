@@ -2,7 +2,7 @@ name: 2021-05-twtr-dev-push
 on:
   push:
     paths:
-      - 2021-03-skeleton/**
+      - 2021-05-twtr/**
     branches:
       - main # 便宜上 main への push も dev 環境とする
       - develop
