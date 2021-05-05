@@ -19,7 +19,7 @@ type chiServerImpl struct {
 func InjectChiServerImpl(f router.Facade) Server {
 	m := chi.NewMux()
 	// TODO: apply common middlewares
-	// apply a;; routes
+	// apply all routes
 	f.Routing(m)
 	return &chiServerImpl{mux: m}
 }
