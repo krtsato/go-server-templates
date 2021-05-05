@@ -27,7 +27,7 @@ const TableAccount = "accounts"
 // TableName DB名.テーブル名を返却
 // gorm で使用するためダックタイピング
 func (Account) TableName() string {
-	return infra.GglbDB + "." + TableAccount
+	return infra.SkeletonDB + "." + TableAccount
 }
 
 // IsEmpty empty check
