@@ -1,0 +1,25 @@
+run:
+  modules-download-mode: readonly
+
+skip-dirs:
+  - build
+  - configs
+  - deployments
+  - docs
+  - pkg/appintf/twtrdb/dump
+  - pkg/appintf/twtrdb/log
+  - scripts
+
+linters:
+  enable:
+    - gofmt
+    - golint
+    - goimports
+    - gosec
+
+# デフォルトで OFF のルール
+# include で使う ID は下記を参照
+# https://github.com/golangci/golangci-lint/blob/ffe80615b079a2cfe9b28e2d8323d58061b795d6/pkg/config/issues.go
+issues:
+  include:
+    - EXC0002 # export する func のコメントを lint 対象にする
