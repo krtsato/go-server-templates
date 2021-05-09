@@ -12,22 +12,22 @@ type (
 
 	// AppConf is the config for app.
 	AppConf struct {
-		env    string `yaml:"env"`
-		logger Logger `yaml:"logger"`
+		env string `yaml:"env"`
+		// logger Logger `yaml:"logger"`
 		webAPI WebAPI `yaml:"webapi"`
 	}
 
 	// Logger is the logger setting.
-	Logger struct {
-		level    string `yaml:"level"` // TODO: enum
-		format   string `yaml:"format"`
-		fullPath string `yaml:"fullPath"`
-	}
+	//Logger struct {
+	//	level    string `yaml:"level"`
+	//	format   string `yaml:"format"`
+	//	fullPath string `yaml:"fullPath"`
+	//}
 
 	// WebAPI is the webapi setting.
 	WebAPI struct {
 		port string `yaml:"port"`
-		auth bool   `yaml:"auth"`
+		//auth bool   `yaml:"auth"`
 	}
 )
 
