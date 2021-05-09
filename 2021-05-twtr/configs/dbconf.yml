@@ -1,0 +1,25 @@
+- env: default
+  twtr:
+    driver: mysql
+    useConnPool: true
+    connMaxLifetimeMin: 1
+    maxIdleConnSize: 5
+    maxOpenConnSize: 5
+    reader:
+      host: mysql
+      port: 3306
+      user: user_r
+      pass: pass_r
+      params: charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Asia%2FTokyo
+    writer:
+      host: mysql
+      port: 3306
+      user: user_w
+      pass: pass_w
+      params: charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Asia%2FTokyo
+
+- env: local
+
+- env: dev
+
+- env: prd

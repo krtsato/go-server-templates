@@ -1,0 +1,23 @@
+- env: default
+  logger:
+    level: info
+    format: json
+    fullPath:
+  webapi:
+    port: 9999
+    auth: false
+
+- env: local
+  logger:
+    level: debug
+    format: console
+    fullPath: /var/log/twtr/app.log
+
+- env: dev
+  logger:
+    level: debug
+
+- env: prd
+  webapi:
+    port: 8080
+    auth: true
