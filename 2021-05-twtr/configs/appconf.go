@@ -3,6 +3,8 @@ package configs
 import (
 	_ "embed" //nolint
 
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/apperr"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -12,22 +14,22 @@ type (
 
 	// AppConf is the config for app.
 	AppConf struct {
-		env string `yaml:"env"`
-		// logger Logger `yaml:"logger"`
-		webAPI WebAPI `yaml:"webapi"`
+		Env    string `yaml:"env"`
+		Logger Logger `yaml:"logger"`
+		WebAPI WebAPI `yaml:"webapi"`
 	}
 
 	// Logger is the logger setting.
-	//Logger struct {
-	//	level    string `yaml:"level"`
-	//	format   string `yaml:"format"`
-	//	fullPath string `yaml:"fullPath"`
-	//}
+	Logger struct {
+		Level    string `yaml:"level"`
+		Format   string `yaml:"format"`
+		FullPath string `yaml:"fullPath"`
+	}
 
 	// WebAPI is the webapi setting.
 	WebAPI struct {
-		port string `yaml:"port"`
-		//auth bool   `yaml:"auth"`
+		Port string `yaml:"port"`
+		Auth bool   `yaml:"auth"`
 	}
 )
 
@@ -38,18 +40,8 @@ var ymlAppConfs []byte
 func UnmarshalAppConfs() (AppConfs, error) {
 	var appConfs AppConfs
 	if err := yaml.Unmarshal(ymlAppConfs, &appConfs); err != nil {
-		return nil, err
+		return nil, apperr.ErrorF(apperr.Unmarshal, "failed to unmarshal app config: %s", err.Error())
 	}
 
 	return appConfs, nil
-}
-
-// Env returns app env
-func (a AppConf) Env() string {
-	return a.env
-}
-
-// WebAPIPort returns the webapi port
-func (a AppConf) WebAPIPort() string {
-	return a.webAPI.port
 }
