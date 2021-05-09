@@ -1,6 +1,10 @@
 package configs
 
-import "gopkg.in/yaml.v3"
+import (
+	_ "embed" //nolint
+
+	"gopkg.in/yaml.v3"
+)
 
 type (
 	// DBConfs contains all environmental DB configs.
