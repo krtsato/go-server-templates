@@ -21,7 +21,7 @@ func main() {
 
 	chiSrv := InjectDependencies()
 
-	if err := chiSrv.ListenAndServe(ctx, conf.AppConf().WebAPIPort()); err != nil {
+	if err := chiSrv.ListenAndServe(ctx, conf.AppConf.WebAPI.Port); err != nil {
 		panic(err)
 	}
 }

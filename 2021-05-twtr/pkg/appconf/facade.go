@@ -9,8 +9,8 @@ import (
 
 // Facade is facade config.
 type Facade struct {
-	appConf *configs.AppConf
-	dbCong  *configs.DBConf
+	AppConf *configs.AppConf
+	DBConf  *configs.DBConf
 }
 
 // once is singleton for Facade config.
@@ -36,37 +36,17 @@ func LoadFacade() (*Facade, error) {
 			err = e
 			return
 		}
-		facade.setAppConf(app)
+		facade.AppConf = app
 
 		db, e := loadDBConf(appEnv)
 		if e != nil {
 			err = e
 			return
 		}
-		facade.setDBConf(db)
+		facade.DBConf = db
 
 		fmt.Printf("succeed in %v config setup\n", appEnv)
 	})
 
 	return facade, err
-}
-
-// AppConf returns the AppConf of Facade config.
-func (f Facade) AppConf() *configs.AppConf {
-	return f.appConf
-}
-
-// DBConf returns the DBConf of Facade config.
-func (f Facade) DBConf() *configs.AppConf {
-	return f.appConf
-}
-
-// setAppConf sets AppConf in Facade config.
-func (f Facade) setAppConf(app *configs.AppConf) {
-	f.appConf = app
-}
-
-// setDBConf sets DBConf in Facade config.
-func (f Facade) setDBConf(db *configs.DBConf) {
-	f.dbCong = db
 }
