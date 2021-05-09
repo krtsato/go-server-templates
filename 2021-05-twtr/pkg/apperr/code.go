@@ -1,11 +1,11 @@
 package apperr
 
-// Code is string error code
+// Code is string error code.
 type Code string
 
 // Code is constant.
 const (
 	Unknown Code = "unknown"
-	OK           = "ok"
-	Config       = "config"
+	OK      Code = "ok"
+	Config  Code = "config"
 )

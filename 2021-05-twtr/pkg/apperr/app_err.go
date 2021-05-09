@@ -4,17 +4,19 @@ import (
 	"fmt"
 )
 
-// AppErr is error inside app
-type AppErr interface {
-	ErrorCode() Code
-	Error() string
-	Unwrap() error
-}
+type (
+	// AppErr is error inside app.
+	AppErr interface {
+		ErrorCode() Code
+		Error() string
+		Unwrap() error
+	}
 
-type appErrImpl struct {
-	code  Code
-	cause error
-}
+	appErrImpl struct {
+		code  Code
+		cause error
+	}
+)
 
 // ErrorCode returns error Code enum.
 func (a appErrImpl) ErrorCode() Code {
@@ -37,8 +39,8 @@ func (a appErrImpl) Unwrap() error {
 	return a.cause
 }
 
-// NewAppErrF returns Code and its error.
-func NewAppErrF(c Code, format string, v ...interface{}) error {
+// ErrorF generates app error with format string.
+func ErrorF(c Code, format string, v ...interface{}) error {
 	if c == OK {
 		return nil
 	}
