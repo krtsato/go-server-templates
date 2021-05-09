@@ -1,5 +1,5 @@
 - env: default
-  twtr:
+  twtrdb:
     driver: mysql
     useConnPool: true
     connMaxLifetimeMin: 1

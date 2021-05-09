@@ -3,6 +3,7 @@ package configs
 import (
 	_ "embed" //nolint
 
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/apperr"
 	"gopkg.in/yaml.v3"
 )
 
@@ -12,11 +13,11 @@ type (
 
 	// DBConf is the config for DB.
 	DBConf struct {
-		Env         string  `yaml:"env"` // TODO: enum
-		TwtrDataSrc DataSrc `yaml:"twtr"`
+		Env         string  `yaml:"env"`
+		TwtrDataSrc DataSrc `yaml:"twtrdb"`
 	}
 
-	// DataSrc is DB data source
+	// DataSrc is DB data source.
 	DataSrc struct {
 		Driver             string `yaml:"driver"`
 		UseConnPool        bool   `yaml:"useConnPool"`
@@ -49,11 +50,12 @@ type (
 //go:embed dbconf.yml
 var ymlDBConfs []byte
 
-// UnmarshalDBConfs scans DBConfs from yml
+// UnmarshalDBConfs scans DBConfs from yml.
 func UnmarshalDBConfs() (DBConfs, error) {
 	var dbConfs DBConfs
 	if err := yaml.Unmarshal(ymlDBConfs, &dbConfs); err != nil {
-		return nil, err
+		return nil, apperr.ErrorF(apperr.Unmarshal, "failed to unmarshal DB config: %s", err.Error())
 	}
+
 	return dbConfs, nil
 }
