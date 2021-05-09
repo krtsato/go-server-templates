@@ -2,6 +2,7 @@ package webapi
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -33,6 +34,7 @@ func (c *chiServerImpl) ListenAndServe(ctx context.Context, port string) (err er
 		c.Shutdown(ctx)
 	}()
 
+	fmt.Println("start to listen and serve.")
 	return c.listenAndServe(port, c.mux)
 }
 
