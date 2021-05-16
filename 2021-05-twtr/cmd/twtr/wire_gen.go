@@ -6,9 +6,9 @@
 package main
 
 import (
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appintf/webapi"
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appintf/webapi/controller"
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appintf/webapi/router"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/controller"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/router"
 )
 
 // Injectors from wire.go:

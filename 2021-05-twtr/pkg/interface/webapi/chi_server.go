@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appintf/webapi/router"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/router"
 
 	"github.com/go-chi/chi/v5"
 )

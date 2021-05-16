@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appintf/webapi/response"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/response"
 )
 
 // SystemController is the controller for development check

@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appintf/webapi/controller"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/controller"
 )
 
 // Facade is facade router for webapi.
