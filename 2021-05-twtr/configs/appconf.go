@@ -3,6 +3,8 @@ package configs
 import (
 	_ "embed" //nolint
 
+	"go.uber.org/zap"
+
 	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/apperr"
 
 	"gopkg.in/yaml.v3"
@@ -14,16 +16,9 @@ type (
 
 	// AppConf is the config for app.
 	AppConf struct {
-		Env    string `yaml:"env"`
-		Logger Logger `yaml:"logger"`
-		WebAPI WebAPI `yaml:"webapi"`
-	}
-
-	// Logger is the logger setting.
-	Logger struct {
-		Level    string `yaml:"level"`
-		Format   string `yaml:"format"`
-		FullPath string `yaml:"fullPath"`
+		Env    string      `yaml:"env"`
+		Log    *zap.Config `yaml:"log"`
+		WebAPI WebAPI      `yaml:"webapi"`
 	}
 
 	// WebAPI is the webapi setting.

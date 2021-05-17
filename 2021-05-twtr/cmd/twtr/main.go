@@ -17,7 +17,7 @@ func main() {
 		panic(err)
 	}
 
-	// TODO: generate logger
+	// TODO: generate applog
 
 	chiSrv := InjectDependencies()
 

@@ -1,23 +1,48 @@
 - env: default
-  logger:
+  log:
     level: info
-    format: json
-    fullPath:
+    development: true
+    disableCaller: false
+    disableStacktrace: false
+    sampling:
+      initial: 100
+      thereafter: 100
+    encoding: json
+    encoderConfig:
+      messageKey: msg
+      levelKey: level
+      timeKey: time
+      nameKey: log
+      callerKey: caller
+      functionKey: func
+      stacktraceKey: stacktrace
+      lineEnding: \n
+      levelEncoder: capitalColor
+      timeEncoder: iso8601
+      durationEncoder: nanos
+      callerEncoder: short
+      nameEncoder: full
+      consoleSeparator: \t
+    outputPaths:
+      - stdout
+    errorOutputPaths:
+      - stderr
   webapi:
     port: 9999
     auth: false
 
 - env: local
-  logger:
+  log:
     level: debug
-    format: console
-    fullPath: /var/log/twtr/app.log
+    encoding: console
 
 - env: dev
-  logger:
+  log:
     level: debug
 
 - env: prd
+  log:
+    development: false
   webapi:
     port: 8080
     auth: true

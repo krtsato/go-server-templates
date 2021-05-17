@@ -43,11 +43,10 @@
 │   ├── appauth   # hash, jwt and session helper
 │   ├── appconf   # config scanner
 │   ├── appctx    # context helper
-│   ├── apperr    # errors inside app
-│   ├── appintf   # infra and webapi outside app
+│   ├── applog    # access and app logger
 │   ├── conv      # converter between entity and dto
 │   ├── domain    # domain models
-│   ├── logger    # access and app logger
+│   ├── interface # infra and webapi outside app
 │   └── usecase   # usecase interaction
 └── scripts
     ├── make      # sub makefiles

@@ -40,7 +40,7 @@ func (c *chiServerImpl) ListenAndServe(ctx context.Context, port string) (err er
 
 // Shutdown is graceful shutdown.
 func (c *chiServerImpl) Shutdown(ctx context.Context) {
-	log.Println("WARN: start shutdown.") // TODO: make logger output
+	log.Println("WARN: start shutdown.") // TODO: make applog output
 	if err := c.shutdown(ctx); err != nil {
 		panic(err)
 	}
