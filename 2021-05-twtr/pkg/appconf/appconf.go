@@ -46,7 +46,7 @@ func mergeAppConf(e AppEnv, cs configs.AppConfs) (*configs.AppConf, error) {
 	}
 
 	if err := mergo.Merge(&targetConf, defaultConf, mergo.WithTransformers(boolTransformer{})); err != nil {
-		return nil, apperr.ErrorF(apperr.Config, "failed to merge default app config with %s one: %s", e.String(), err.Error())
+		return nil, apperr.ErrorF(apperr.Config, "failed to merge default app config with %s one: %s", e.String(), err)
 	}
 
 	return &targetConf, nil
@@ -55,7 +55,7 @@ func mergeAppConf(e AppEnv, cs configs.AppConfs) (*configs.AppConf, error) {
 // Transformer expresses duck typing for mergo.merge because of overwriting bool with zero value.
 func (b boolTransformer) Transformer(typ reflect.Type) func(dst, src reflect.Value) error {
 	switch typ {
-	case reflect.TypeOf(configs.WebAPI{}.Port):
+	case reflect.TypeOf(configs.REST{}.Port):
 		return func(dst, src reflect.Value) error { return nil }
 	case reflect.TypeOf(configs.DataSrc{}.UseConnPool):
 		return func(dst, src reflect.Value) error { return nil }

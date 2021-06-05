@@ -40,7 +40,7 @@ func mergeDBConf(e AppEnv, cs configs.DBConfs) (*configs.DBConf, error) {
 	}
 
 	if err := mergo.Merge(&targetConf, defaultConf, mergo.WithTransformers(boolTransformer{})); err != nil {
-		return nil, apperr.ErrorF(apperr.Config, "failed to merge default DB config with %s one: %s", e.String(), err.Error())
+		return nil, apperr.ErrorF(apperr.Config, "failed to merge default DB config with %s one: %s", e.String(), err)
 	}
 
 	return &targetConf, nil
