@@ -11,25 +11,25 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-type chiServerImpl struct {
+type rest struct {
 	server
 	mux *chi.Mux
 }
 
-// InjectChiServerImpl is the injector for Server.
-func InjectChiServerImpl(f router.Facade) Server {
+// InjectRest is the injector for Server.
+func InjectRest(f router.Facade) *rest {
 	m := chi.NewMux()
 	// TODO: apply common middlewares
 	// apply all routes
 	f.Routing(m)
-	return &chiServerImpl{mux: m}
+	return &rest{mux: m}
 }
 
 // ListenAndServe starts to listen request and serve response.
-func (c *chiServerImpl) ListenAndServe(ctx context.Context, port string) (err error) {
+func (c *rest) ListenAndServe(ctx context.Context, port string) (err error) {
 	go func() {
 		<-ctx.Done()
-		ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+		ctx, cancel := context.WithTimeout(ctx, time.Minute)
 		defer cancel()
 		c.Shutdown(ctx)
 	}()
@@ -39,7 +39,7 @@ func (c *chiServerImpl) ListenAndServe(ctx context.Context, port string) (err er
 }
 
 // Shutdown is graceful shutdown.
-func (c *chiServerImpl) Shutdown(ctx context.Context) {
+func (c *rest) Shutdown(ctx context.Context) {
 	log.Println("WARN: start shutdown.") // TODO: make applog output
 	if err := c.shutdown(ctx); err != nil {
 		panic(err)

@@ -6,5 +6,6 @@ import (
 
 // DISet is used to inject clearly.
 var DISet = wire.NewSet(
-	InjectChiServerImpl,
+	InjectRest,
+	wire.Bind(new(Server), new(*rest)),
 )

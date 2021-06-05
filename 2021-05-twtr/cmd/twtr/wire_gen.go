@@ -16,6 +16,6 @@ import (
 func InjectDependencies() webapi.Server {
 	systemController := controller.InjectSystemControllerImpl()
 	facade := router.InjectFacadeImpl(systemController)
-	server := webapi.InjectChiServerImpl(facade)
-	return server
+	rest := webapi.InjectRest(facade)
+	return rest
 }

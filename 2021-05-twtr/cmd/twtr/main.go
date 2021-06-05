@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt) // TODO: syscall.SIGINT, syscall.SIGTERM
 	defer stop()
 
 	conf, err := appconf.LoadFacade()
