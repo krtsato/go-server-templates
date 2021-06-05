@@ -46,12 +46,11 @@
 │   ├── applog    # access and app logger
 │   ├── conv      # converter between entity and dto
 │   ├── domain    # domain models
-│   ├── interface # infra and webapi outside app
+│   ├── interface # infra, rest and grpc outside app
 │   └── usecase   # usecase interaction
 └── scripts
     ├── make      # sub makefiles
     └── twtrdb    # db operation files
-
 ```
 
 ## Setup
