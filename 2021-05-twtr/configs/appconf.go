@@ -16,13 +16,13 @@ type (
 
 	// AppConf is the config for app.
 	AppConf struct {
-		Env    string      `yaml:"env"`
-		Log    *zap.Config `yaml:"log"`
-		WebAPI WebAPI      `yaml:"webapi"`
+		Env  string      `yaml:"env"`
+		Log  *zap.Config `yaml:"log"`
+		REST REST        `yaml:"rest"`
 	}
 
-	// WebAPI is the webapi setting.
-	WebAPI struct {
+	// REST is the rest api setting.
+	REST struct {
 		Port string `yaml:"port"`
 		Auth bool   `yaml:"auth"`
 	}
@@ -35,7 +35,7 @@ var ymlAppConfs []byte
 func UnmarshalAppConfs() (AppConfs, error) {
 	var appConfs AppConfs
 	if err := yaml.Unmarshal(ymlAppConfs, &appConfs); err != nil {
-		return nil, apperr.ErrorF(apperr.Unmarshal, "failed to unmarshal app config: %s", err.Error())
+		return nil, apperr.ErrorF(apperr.Unmarshal, "failed to unmarshal app config: %s", err)
 	}
 
 	return appConfs, nil

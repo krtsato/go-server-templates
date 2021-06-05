@@ -27,7 +27,7 @@
       - stdout
     errorOutputPaths:
       - stderr
-  webapi:
+  rest:
     port: 9999
     auth: false
 
@@ -43,6 +43,6 @@
 - env: prd
   log:
     development: false
-  webapi:
+  rest:
     port: 8080
     auth: true

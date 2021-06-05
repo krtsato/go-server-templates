@@ -6,16 +6,17 @@
 package main
 
 import (
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi"
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/controller"
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/router"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/controller"
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/router"
 )
 
 // Injectors from wire.go:
 
-func InjectDependencies() webapi.Server {
-	systemController := controller.InjectSystemControllerImpl()
+func InjectDependencies() _interface.Server {
+	systemController := controller.InjectSystemController()
 	facade := router.InjectFacadeImpl(systemController)
-	rest := webapi.InjectRest(facade)
-	return rest
+	restRest := rest.InjectRest(facade)
+	return restRest
 }

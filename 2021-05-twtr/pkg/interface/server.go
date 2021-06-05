@@ -1,4 +1,4 @@
-package webapi
+package _interface
 
 import (
 	"context"
@@ -7,10 +7,10 @@ import (
 )
 
 // ------------------------------------------------------------
-// Abstract webapi Server
+// Abstract Server
 // ------------------------------------------------------------
 
-// Server is webapi server.
+// Server listens requests and serve responses.
 type Server interface {
 	ListenAndServe(ctx context.Context, port string) error
 	Shutdown(ctx context.Context)
