@@ -6,8 +6,8 @@ build
 configs/mysql.cnf
 deployments
 docs
-pkg/appintf/twtrdb/dump
-pkg/appintf/twtrdb/log
+pkg/interface/twtrdb/dump
+pkg/interface/twtrdb/log
 scripts
 docker-compose.yml
 Makefile

@@ -5,7 +5,7 @@ tmp_dir = "./tmp"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./twtr ./cmd/twtr/main.go"
+cmd = "go build -o ./twtr ./cmd/twtr/"
 
 # Binary file yields from `cmd`.
 bin = "twtr"
@@ -17,7 +17,7 @@ full_bin = "APP_USER=air ./twtr"
 include_ext = ["go", "yml", "yaml"]
 
 # Ignore these filename extensions or directories.
-exclude_dir = ["build", "deployments", "docs", "pkg/infra/twtrdb/dump", "pkg/infra/twtrdb/log", "scripts"]
+exclude_dir = ["build", "deployments", "docs", "pkg/interface/twtrdb/dump", "pkg/interface/twtrdb/log", "scripts"]
 
 # Watch these directories if you specified.
 include_dir = ["cmd", "configs", "pkg"]

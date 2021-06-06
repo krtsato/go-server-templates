@@ -6,8 +6,8 @@ skip-dirs:
   - configs
   - deployments
   - docs
-  - pkg/appintf/twtrdb/dump
-  - pkg/appintf/twtrdb/log
+  - pkg/interface/twtrdb/dump
+  - pkg/interface/twtrdb/log
   - scripts
 
 linters:

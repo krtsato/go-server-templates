@@ -46,7 +46,7 @@
 │   ├── applog    # access and app logger
 │   ├── conv      # converter between entity and dto
 │   ├── domain    # domain models
-│   ├── interface # infra, rest and grpc outside app
+│   ├── interface # db, rest and grpc outside app
 │   └── usecase   # usecase interaction
 └── scripts
     ├── make      # sub makefiles
@@ -66,11 +66,11 @@ Makefile でコマンドを実行する
 
 `% make help`
 
-docker-compose で local 環境を構築する
+docker compose で local 環境を構築する
 
 `% make local-up-all`
 
-docker-compose で local 環境を削除する
+docker compose で local 環境を削除する
 
 `% make local-down-all`
 

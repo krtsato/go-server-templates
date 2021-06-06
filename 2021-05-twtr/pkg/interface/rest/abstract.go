@@ -17,7 +17,7 @@ type AbstractServer interface {
 }
 
 type abstractServer struct {
-	*http.Server
+	http.Server
 }
 
 // ListenAndServe is the common method for Abstract implements.

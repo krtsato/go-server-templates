@@ -13,7 +13,7 @@
 
 ## DI
 
-- DI が必要なパッケージルートに `injector.go` を配置し `wire.NewSet()` を定義する
+- DI が必要なパッケージルートに `wire.go` を配置し `wire.NewSet()` を定義する
     - cmd/app-name/wire.go で `wire.Build()` の引数として呼び出す
 
 ## Package Responsibility

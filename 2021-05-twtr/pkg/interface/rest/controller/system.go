@@ -11,13 +11,15 @@ type System interface {
 	Health(w http.ResponseWriter, r *http.Request)
 }
 
-type systemController struct{}
+// SystemController implements System.
+type SystemController struct{}
 
 // InjectSystem is the injector for systemController.
-func InjectSystem() *systemController {
-	return &systemController{}
+func InjectSystem() *SystemController {
+	return &SystemController{}
 }
 
-func (s *systemController) Health(w http.ResponseWriter, r *http.Request) {
+// Health responses Healthy.
+func (s *SystemController) Health(w http.ResponseWriter, r *http.Request) {
 	response.OK(w, r, "Healthy.")
 }

@@ -8,7 +8,7 @@
 /tmp
 
 # db
-/pkg/appintf/twtrdb/dump
-!/pkg/appintf/twtrdb/dump/.keep
-/pkg/appintf/twtrdb/log/
-!/pkg/appintf/twtrdb/log/.keep
+/pkg/interface/twtrdb/dump
+!/pkg/interface/twtrdb/dump/.keep
+/pkg/interface/twtrdb/log/
+!/pkg/interface/twtrdb/log/.keep

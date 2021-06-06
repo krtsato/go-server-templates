@@ -10,19 +10,20 @@ type Facade interface {
 	Routing(mux *chi.Mux)
 }
 
-type facade struct {
+// FacadeRouter implements Facade.
+type FacadeRouter struct {
 	system controller.System
 }
 
 // InjectFacade is the injector for Facade router.
-func InjectFacade(sys controller.System) *facade {
-	return &facade{
+func InjectFacade(sys controller.System) *FacadeRouter {
+	return &FacadeRouter{
 		system: sys,
 	}
 }
 
 // Routing applies endpoints to *chi.Mux.
 // Whenever a new endpoint created, add its path and router here.
-func (f *facade) Routing(mux *chi.Mux) {
+func (f *FacadeRouter) Routing(mux *chi.Mux) {
 	mux.Mount("/system", f.systemRouter())
 }

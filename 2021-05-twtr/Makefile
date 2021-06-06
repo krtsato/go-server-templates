@@ -39,28 +39,28 @@ go-build: ## local: ソースコードをビルド
 	go build -o ./${APP_NAME} ./cmd/${APP_NAME}/{main.go,wire_gen.go}
 
 # ------------------------------------------------------------ #
-# docker-compose
+# docker compose
 # ------------------------------------------------------------ #
 
 .PHONY: local-up-all
-local-up-all: ## local: docker-compose でイメージ作成・コンテナ起動
-	docker-compose up --build
+local-up-all: ## local: docker compose でイメージ作成・コンテナ起動
+	docker compose up --build
 
 .PHONY: local-down-all
-local-down-all: ## local: docker-compose ですべてのリソース削除
-	docker-compose down -v --rmi all
+local-down-all: ## local: docker compose ですべてのリソース削除
+	docker compose down -v --rmi all
 
 .PHONY: local-logs
-local-logs: ## local: docker-compose でコンテナログ出力
-	docker-compose logs -f
+local-logs: ## local: docker compose でコンテナログ出力
+	docker compose logs -f
 
 .PHONY: local-tail-app
 local-tail: ## local: tail でアプリケーションログ出力
-	docker-compose exec ${APP_NAME} sh -c 'tail -f /var/log/${APP_NAME}/app.log'
+	docker compose exec ${APP_NAME} sh -c 'tail -f /var/log/${APP_NAME}/app.log'
 
 .PHONY: local-exec-sh
-local-exec: ## local: docker-compose で sh ログイン
-	docker-compose exec ${APP_NAME} sh
+local-exec: ## local: docker compose で sh ログイン
+	docker compose exec ${APP_NAME} sh
 
 .PHONY: local-cont-ls
 local-cont-ls: ## local: docker container 一覧
