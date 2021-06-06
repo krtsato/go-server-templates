@@ -4,7 +4,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: build/package/local/server.dockerfile
+      dockerfile: build/local/server.dockerfile
     image: local-twtr-server
     container_name: local-twtr-server
     depends_on:
@@ -20,7 +20,7 @@ services:
   mysql:
     build:
       context: .
-      dockerfile: build/package/local/mysql.dockerfile
+      dockerfile: build/local/mysql.dockerfile
     image: local-twtr-mysql
     container_name: local-twtr-mysql
     ports:
