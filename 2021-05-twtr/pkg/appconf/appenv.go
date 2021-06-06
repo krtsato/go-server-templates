@@ -37,7 +37,7 @@ func confirmAppEnv(value string) (AppEnv, error) {
 		}
 	}
 
-	return AppEnvUnknown, apperr.ErrorF(apperr.Config, "failed to confirm the unknown AppEnv: %s", value)
+	return AppEnvUnknown, apperr.Errorf(apperr.Config, "failed to confirm the unknown AppEnv: %s", value)
 }
 
 // loadOSAppEnv returns OS APP_ENV value.

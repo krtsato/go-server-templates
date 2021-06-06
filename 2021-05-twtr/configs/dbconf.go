@@ -54,7 +54,7 @@ var ymlDBConfs []byte
 func UnmarshalDBConfs() (DBConfs, error) {
 	var dbConfs DBConfs
 	if err := yaml.Unmarshal(ymlDBConfs, &dbConfs); err != nil {
-		return nil, apperr.ErrorF(apperr.Unmarshal, "failed to unmarshal DB config: %s", err)
+		return nil, apperr.Errorf(apperr.Unmarshal, "failed to unmarshal DB config: %s", err)
 	}
 
 	return dbConfs, nil

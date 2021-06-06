@@ -42,11 +42,11 @@ func mergeAppConf(e AppEnv, cs configs.AppConfs) (*configs.AppConf, error) {
 	}
 
 	if targetConf == emptyConf {
-		return nil, apperr.ErrorF(apperr.Config, "failed to merge default app config with empty one")
+		return nil, apperr.Errorf(apperr.Config, "failed to merge default app config with empty one")
 	}
 
 	if err := mergo.Merge(&targetConf, defaultConf, mergo.WithTransformers(boolTransformer{})); err != nil {
-		return nil, apperr.ErrorF(apperr.Config, "failed to merge default app config with %s one: %s", e.String(), err)
+		return nil, apperr.Errorf(apperr.Config, "failed to merge default app config with %s one: %s", e.String(), err)
 	}
 
 	return &targetConf, nil

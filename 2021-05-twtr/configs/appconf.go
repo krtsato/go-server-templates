@@ -35,7 +35,7 @@ var ymlAppConfs []byte
 func UnmarshalAppConfs() (AppConfs, error) {
 	var appConfs AppConfs
 	if err := yaml.Unmarshal(ymlAppConfs, &appConfs); err != nil {
-		return nil, apperr.ErrorF(apperr.Unmarshal, "failed to unmarshal app config: %s", err)
+		return nil, apperr.Errorf(apperr.Unmarshal, "failed to unmarshal app config: %s", err)
 	}
 
 	return appConfs, nil
