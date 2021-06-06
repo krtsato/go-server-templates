@@ -1,3 +1,5 @@
+//go:generate mockgen -destination=$PRJ_ROOT/pkg/mock/interface/$GOPACKAGE/$GOFILE -package=$GOPACKAGE -source=$GOFILE -source=abstract.go
+
 package rest
 
 import (

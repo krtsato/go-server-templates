@@ -15,7 +15,7 @@ import (
 
 func InjectDependencies() *rest.Server {
 	systemController := controller.InjectSystem()
-	facade := router.InjectFacade(systemController)
-	server := rest.InjectServer(facade)
+	facadeRouter := router.InjectFacade(systemController)
+	server := rest.InjectServer(facadeRouter)
 	return server
 }

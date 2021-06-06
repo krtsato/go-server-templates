@@ -9,5 +9,5 @@ import (
 // DISet is used to inject clearly.
 var DISet = wire.NewSet(
 	InjectFacade,
-	wire.Bind(new(Facade), new(*facade)),
+	wire.Bind(new(Facade), new(*FacadeRouter)),
 )

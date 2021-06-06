@@ -1,3 +1,5 @@
+//go:generate mockgen -destination=$PRJ_ROOT/pkg/mock/interface/rest/$GOPACKAGE/$GOFILE -package=$GOPACKAGE -source=$GOFILE
+
 package router
 
 import (

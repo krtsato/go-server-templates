@@ -7,5 +7,5 @@ import "github.com/google/wire"
 // DISet is used to inject clearly.
 var DISet = wire.NewSet(
 	InjectSystem,
-	wire.Bind(new(System), new(*systemController)),
+	wire.Bind(new(System), new(*SystemController)),
 )
