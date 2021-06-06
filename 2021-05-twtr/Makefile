@@ -3,12 +3,12 @@
 # ------------------------------------------------------------ #
 
 # App
-APP_ENV=local # local | dev | prd
-APP_NAME=twtr
+APP_ENV ?= local # local | dev | prd
+APP_NAME ?= twtr
 
 # DB Command Args
-TABLE_NAME=   # table name arg
-MIGRATE_NAME= # migration name arg
+TABLE_NAME ?= # table name arg
+MIGRATE_NAME ?= # migration name arg
 
 # ------------------------------------------------------------ #
 # Setup
@@ -30,13 +30,18 @@ lint: ## local: golangci-lint による静的解析
 fmt: ## local: goimports のフォーマット
 	docker run --rm -e APP_ENV=${APP_ENV} -v ${CURDIR}:/var/app/tools twtr-tools goimports -w ./
 
-.PHONY: go-test
-go-test: ## local: テストを実行
+.PHONY: test
+test: ## local: テストを実行
 	go test -race -v ./cmd/... ./pkg/...
 
-.PHONY: go-build
-go-build: ## local: ソースコードをビルド
-	go build -o ./${APP_NAME} ./cmd/${APP_NAME}/{main.go,wire_gen.go}
+.PHONY: build
+build: ## local: ソースコードをビルド
+	go build -o ./${APP_NAME} ./cmd/${APP_NAME}/
+
+.PHONY: generate
+generate: ## local: モックを生成
+	rm -rf ${CURDIR}/pkg/mock/
+	@PRJ_ROOT=${CURDIR} go generate ./...
 
 # ------------------------------------------------------------ #
 # docker compose

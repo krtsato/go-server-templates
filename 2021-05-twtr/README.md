@@ -34,7 +34,7 @@
 
 ```shell
 .
-├── build/package # dockerfiles
+├── build         # dockerfiles
 ├── cmd/twtr      # package main
 ├── configs       # config files
 ├── deployments   # deployment files
@@ -47,10 +47,9 @@
 │   ├── conv      # converter between entity and dto
 │   ├── domain    # domain models
 │   ├── interface # db, rest and grpc outside app
+│   ├── mock      # generated mock 
 │   └── usecase   # usecase interaction
-└── scripts
-    ├── make      # sub makefiles
-    └── twtrdb    # db operation files
+└── scripts  # sub makefiles and db operation files
 ```
 
 ## Setup
@@ -73,6 +72,11 @@ docker compose で local 環境を構築する
 docker compose で local 環境を削除する
 
 `% make local-down-all`
+
+wire でインジェクタを生成する
+gomock でモックを生成する
+
+`% make generate`
 
 ### Local Check
 
