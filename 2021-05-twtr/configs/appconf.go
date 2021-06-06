@@ -18,11 +18,11 @@ type (
 	AppConf struct {
 		Env  string      `yaml:"env"`
 		Log  *zap.Config `yaml:"log"`
-		REST REST        `yaml:"rest"`
+		Rest Rest        `yaml:"rest"`
 	}
 
-	// REST is the rest api setting.
-	REST struct {
+	// Rest is the rest api setting.
+	Rest struct {
 		Port string `yaml:"port"`
 		Auth bool   `yaml:"auth"`
 	}

@@ -55,7 +55,7 @@ func mergeAppConf(e AppEnv, cs configs.AppConfs) (*configs.AppConf, error) {
 // Transformer expresses duck typing for mergo.merge because of overwriting bool with zero value.
 func (b boolTransformer) Transformer(typ reflect.Type) func(dst, src reflect.Value) error {
 	switch typ {
-	case reflect.TypeOf(configs.REST{}.Port):
+	case reflect.TypeOf(configs.Rest{}.Port):
 		return func(dst, src reflect.Value) error { return nil }
 	case reflect.TypeOf(configs.DataSrc{}.UseConnPool):
 		return func(dst, src reflect.Value) error { return nil }

@@ -2,14 +2,14 @@ package main
 
 import (
 	"context"
-	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appconf"
 )
 
 func main() {
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt) // TODO: syscall.SIGINT, syscall.SIGTERM
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
 	conf, err := appconf.LoadFacade()
@@ -19,9 +19,9 @@ func main() {
 
 	// TODO: generate applog
 
-	chiSrv := InjectDependencies()
+	server := InjectDependencies()
 
-	if err := chiSrv.ListenAndServe(ctx, conf.AppConf.WebAPI.Port); err != nil {
+	if err := server.ListenAndServe(ctx, conf.AppConf.Rest.Port); err != nil {
 		panic(err)
 	}
 }

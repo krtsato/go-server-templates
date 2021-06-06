@@ -1,3 +1,5 @@
+//+build wireinject
+
 package router
 
 import (
@@ -6,5 +8,6 @@ import (
 
 // DISet is used to inject clearly.
 var DISet = wire.NewSet(
-	InjectFacadeImpl,
+	InjectFacade,
+	wire.Bind(new(Facade), new(*facade)),
 )

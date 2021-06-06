@@ -1,4 +1,4 @@
-package webapi
+package rest
 
 import (
 	"context"
@@ -6,42 +6,43 @@ import (
 	"log"
 	"time"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/webapi/router"
-
 	"github.com/go-chi/chi/v5"
+
+	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/router"
 )
 
-type rest struct {
-	server
+// Server implements AbstractServer
+type Server struct {
+	abstractServer
 	mux *chi.Mux
 }
 
-// InjectRest is the injector for Server.
-func InjectRest(f router.Facade) *rest {
+// InjectServer is the injector for Server.
+func InjectServer(f router.Facade) *Server {
 	m := chi.NewMux()
 	// TODO: apply common middlewares
 	// apply all routes
 	f.Routing(m)
-	return &rest{mux: m}
+	return &Server{mux: m}
 }
 
 // ListenAndServe starts to listen request and serve response.
-func (c *rest) ListenAndServe(ctx context.Context, port string) (err error) {
+func (s *Server) ListenAndServe(ctx context.Context, port string) (err error) {
 	go func() {
 		<-ctx.Done()
 		ctx, cancel := context.WithTimeout(ctx, time.Minute)
 		defer cancel()
-		c.Shutdown(ctx)
+		s.Shutdown(ctx)
 	}()
 
 	fmt.Println("start to listen and serve.")
-	return c.listenAndServe(port, c.mux)
+	return s.listenAndServe(port, s.mux)
 }
 
 // Shutdown is graceful shutdown.
-func (c *rest) Shutdown(ctx context.Context) {
+func (s *Server) Shutdown(ctx context.Context) {
 	log.Println("WARN: start shutdown.") // TODO: make applog output
-	if err := c.shutdown(ctx); err != nil {
+	if err := s.shutdown(ctx); err != nil {
 		panic(err)
 	}
 	log.Fatalln("WARN: finish shutdown.") // TODO: apply recovery middleware

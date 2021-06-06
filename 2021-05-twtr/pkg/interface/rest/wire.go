@@ -1,4 +1,6 @@
-package webapi
+//+build wireinject
+
+package rest
 
 import (
 	"github.com/google/wire"
@@ -6,6 +8,6 @@ import (
 
 // DISet is used to inject clearly.
 var DISet = wire.NewSet(
-	InjectRest,
-	wire.Bind(new(Server), new(*rest)),
+	InjectServer,
+	wire.Bind(new(AbstractServer), new(*Server)),
 )

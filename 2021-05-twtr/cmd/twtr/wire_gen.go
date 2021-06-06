@@ -6,7 +6,6 @@
 package main
 
 import (
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface"
 	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest"
 	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/controller"
 	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/router"
@@ -14,9 +13,9 @@ import (
 
 // Injectors from wire.go:
 
-func InjectDependencies() _interface.Server {
-	systemController := controller.InjectSystemController()
-	facade := router.InjectFacadeImpl(systemController)
-	restRest := rest.InjectRest(facade)
-	return restRest
+func InjectDependencies() *rest.Server {
+	systemController := controller.InjectSystem()
+	facade := router.InjectFacade(systemController)
+	server := rest.InjectServer(facade)
+	return server
 }

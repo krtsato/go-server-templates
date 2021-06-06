@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func (f *facadeImpl) systemRouter() http.Handler {
+func (f *facade) systemRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Get("/health", f.system.Health)
 
