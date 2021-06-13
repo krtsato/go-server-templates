@@ -3,13 +3,12 @@
 ## Naming
 
 - 各レイヤのエンドポイント関数名は [Google Cloud API](https://cloud.google.com/apis/design/standard_methods?hl=ja) 標準メソッドに準拠する
-    - ただし複数取得メソッドは `BatchGet` とする
-    - e.g. `BatchGet(ctx, userIDs) (Users, error)`
-    
+- 自明のため Interface の実体となる構造体には suffix `Impl` を付けない
+
 ## Documentation
 
 - Global Export する変数/関数/型は定義の直上に `// {命名} {説明}` をコメントする
-    - Lint ルールのため随時 `make fmt-imports lint` を実行すると良い
+    - Lint ルールのため随時 `make fmt lint` を実行すると良い
 
 ## DI
 
@@ -27,3 +26,4 @@
 - 型変換の方向
     - `toEntityFoo`: アプリ外部 → 内部
     - `toDTOBar`: アプリ内部 → 外部
+    - `pkg/interface` ディレクトリ直下のパッケージがアプリ外部との境界責務を担う
