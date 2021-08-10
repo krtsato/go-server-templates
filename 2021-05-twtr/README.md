@@ -18,10 +18,13 @@
 - ent
 - gofakeit
 - gomock
+- gomaxprcs
 - go-sqlmock
 - jwt-go
 - k6
 - ozzo-validation
+- pprof
+- automaxprocs
 - sync
 - tbls
 - wire
