@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/pkg/infra/mysql/initdb.d/1_create_users.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/pkg/infra/mysql/initdb.d/2_ddl_accounts.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/pkg/infra/mysql/initdb.d/3_dml_accounts.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/pkg/infra/mysql/initdb.d/4_ddl_groups.sql" dialect="MySQL" />
+    <file url="PROJECT" dialect="MySQL" />
+  </component>
+</project>

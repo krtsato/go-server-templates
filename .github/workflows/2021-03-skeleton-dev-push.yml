@@ -1,8 +1,8 @@
-name: 2021-03-skeleton-dev-push
+name: 202103-skeleton-dev-push
 on:
   push:
     paths:
-      - 2021-03-skeleton/**
+      - 202103-skeleton/**
     branches:
       - main
       - develop
@@ -12,7 +12,7 @@ on:
 
 defaults:
   run:
-    working-directory: 2021-03-skeleton
+    working-directory: 202103-skeleton
 
 jobs:
   setup:
@@ -43,7 +43,7 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.36
-          working-directory: 2021-03-skeleton
+          working-directory: 202103-skeleton
           args: -c ./configs/.golangci.yml
 
   test:
