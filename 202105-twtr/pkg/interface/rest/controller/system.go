@@ -5,7 +5,7 @@ package controller
 import (
 	"net/http"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/response"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/interface/rest/response"
 )
 
 // System is the controller for development check.

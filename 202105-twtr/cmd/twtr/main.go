@@ -5,7 +5,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/appconf"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/appconf"
 )
 
 func main() {

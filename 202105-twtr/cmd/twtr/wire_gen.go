@@ -6,9 +6,9 @@
 package main
 
 import (
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest"
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/controller"
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/router"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/interface/rest"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/interface/rest/controller"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/interface/rest/router"
 )
 
 // Injectors from wire.go:

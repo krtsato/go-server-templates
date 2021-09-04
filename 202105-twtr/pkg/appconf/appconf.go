@@ -5,9 +5,9 @@ import (
 
 	"github.com/imdario/mergo"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/configs"
+	"github.com/krtsato/go-server-templates/202105-twtr/configs"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/apperr"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/apperr"
 )
 
 // boolTransformer extends mergo.merge.

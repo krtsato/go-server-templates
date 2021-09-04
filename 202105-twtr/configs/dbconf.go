@@ -3,7 +3,7 @@ package configs
 import (
 	_ "embed" //nolint
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/apperr"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/apperr"
 	"gopkg.in/yaml.v3"
 )
 

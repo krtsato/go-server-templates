@@ -1,4 +1,4 @@
-# 2021-05-twtr
+# 202105-twtr
 
 2020/05 に作成した SNS テンプレート
 
@@ -59,8 +59,8 @@
 
 ### Rules
 
-[docs/git-rule.md](https://github.com/krtsato/go-server-templates/tree/main/2021-05-twtr/docs/git-rule.md)  
-[docs/code-rule.md](https://github.com/krtsato/go-server-templates/tree/main/2021-05-twtr/docs/code-rule.md)
+[docs/git-rule.md](https://github.com/krtsato/go-server-templates/tree/main/202105-twtr/docs/git-rule.md)  
+[docs/code-rule.md](https://github.com/krtsato/go-server-templates/tree/main/202105-twtr/docs/code-rule.md)
 
 ### Quick Start
 

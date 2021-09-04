@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	apperr "github.com/krtsato/go-server-templates/2021-05-twtr/pkg/apperr"
+	apperr "github.com/krtsato/go-server-templates/202105-twtr/pkg/apperr"
 )
 
 // MockAppErr is a mock of AppErr interface.

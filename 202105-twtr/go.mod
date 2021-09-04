@@ -1,4 +1,4 @@
-module github.com/krtsato/go-server-templates/2021-05-twtr
+module github.com/krtsato/go-server-templates/202105-twtr
 
 go 1.16
 

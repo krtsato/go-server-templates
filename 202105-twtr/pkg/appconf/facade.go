@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/configs"
+	"github.com/krtsato/go-server-templates/202105-twtr/configs"
 )
 
 // Facade is facade config.

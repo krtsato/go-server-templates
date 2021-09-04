@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/interface/rest/router"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/interface/rest/router"
 )
 
 // Server implements AbstractServer

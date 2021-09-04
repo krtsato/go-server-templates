@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/krtsato/go-server-templates/2021-05-twtr/pkg/apperr"
+	"github.com/krtsato/go-server-templates/202105-twtr/pkg/apperr"
 )
 
 // AppEnv is enum.
